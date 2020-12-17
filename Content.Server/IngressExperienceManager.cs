@@ -7,6 +7,7 @@ using Robust.Shared.Interfaces.Map;
 using Robust.Shared.Map;
 using Robust.Shared.IoC;
 using Robust.Shared.Timing;
+using Robust.Shared.Maths;
 
 namespace Content.Server
 {
@@ -23,6 +24,20 @@ namespace Content.Server
             // Create ingress point map.
             IngressMap = _mapManager.CreateMap();
 
+            var simpleGrid = _mapManager.CreateGrid(IngressMap);
+
+            simpleGrid.SetTile(new Vector2i(-1, -1), new Tile(0));
+            simpleGrid.SetTile(new Vector2i(0, -1), new Tile(1));
+            simpleGrid.SetTile(new Vector2i(1, -1), new Tile(0));
+
+            simpleGrid.SetTile(new Vector2i(-1, 0), new Tile(1));
+            simpleGrid.SetTile(new Vector2i(0, 0), new Tile(0));
+            simpleGrid.SetTile(new Vector2i(1, 0), new Tile(1));
+
+            simpleGrid.SetTile(new Vector2i(-1, 1), new Tile(0));
+            simpleGrid.SetTile(new Vector2i(0, 1), new Tile(1));
+            simpleGrid.SetTile(new Vector2i(1, 1), new Tile(0));
+
             // Setup join experience.
             _playerManager.PlayerStatusChanged += PlayerStatusChanged;
         }
@@ -32,7 +47,7 @@ namespace Content.Server
             if (args.NewStatus == SessionStatus.Connected)
             {
                 // Setup an entity for the player...
-                var playerEntity = _entityManager.SpawnEntity("Player", new EntityCoordinates(_mapManager.GetMapEntityId(IngressMap), 0, 0));
+                var playerEntity = _entityManager.SpawnEntity("Player", new EntityCoordinates(_mapManager.GetMapEntityId(IngressMap), 0.5f, 0.5f));
                 // This brings them into the InGame runlevel and to the InGame session status.
                 args.Session.AttachToEntity(playerEntity);
                 args.Session.JoinGame();
