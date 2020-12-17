@@ -22,7 +22,6 @@ namespace Content.Server
         {
             // Create ingress point map.
             IngressMap = _mapManager.CreateMap();
-            // _mapManager.CreateNewMapEntity(IngressMap);
 
             // Setup join experience.
             _playerManager.PlayerStatusChanged += PlayerStatusChanged;

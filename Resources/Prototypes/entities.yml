@@ -8,4 +8,11 @@
     drawFov: false
   - type: Input
     context: "player"
+  - type: Sprite
+    texture: Constructible/Tiles/white.png
+  - type: PointLight
+    radius: 16
+    energy: 1
+    offset: "0, 0"
+    color: "#FFFFFF"
 
