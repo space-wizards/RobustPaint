@@ -9,6 +9,6 @@
   - type: Input
     context: "human"
   - type: Sprite
-    texture: Constructible/Tiles/white.png
+    texture: player.png
   - type: PlayerKinesis
 
