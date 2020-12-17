@@ -1,3 +1,4 @@
+using Robust.Client.Interfaces;
 using Robust.Shared.ContentPack;
 using Robust.Shared.Interfaces.Configuration;
 using Robust.Shared.Interfaces.GameObjects;
@@ -11,6 +12,9 @@ namespace Content.Client
 {
     public class EntryPoint: GameClient
     {
+        [Dependency] private readonly IBaseClient _baseClient = default!;
+        [Dependency] private readonly IGameController _gameController = default!;
+
         public override void Init()
         {
             var factory = IoCManager.Resolve<IComponentFactory>();
@@ -41,7 +45,15 @@ namespace Content.Client
         {
             base.PostInit();
 
-            // DEVNOTE: Further setup, this is the spot you should start trying to connect to the server from.
+            // >:D
+            if (_gameController.LaunchState.FromLauncher)
+            {
+                _baseClient.ConnectToServer(_gameController.LaunchState.ConnectEndpoint);
+            }
+            else
+            {
+                _baseClient.ConnectToServer("localhost", 1212);
+            }
         }
 
         public override void Update(ModUpdateLevel level, FrameEventArgs frameEventArgs)
