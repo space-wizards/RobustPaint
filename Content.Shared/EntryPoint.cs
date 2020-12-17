@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using Robust.Shared.ContentPack;
+using Robust.Shared.Interfaces.Map;
 using Robust.Shared.IoC;
 using Robust.Shared.Localization;
 using Robust.Shared.Localization.Macros;
@@ -16,6 +17,9 @@ namespace Content.Shared
         // language. Robust doesn't support changing this mid-game. Load your config file early
         // if you want that.
         private const string Culture = "en-US";
+
+        [Dependency] private readonly IPrototypeManager _prototypeManager = default!;
+        [Dependency] private readonly ITileDefinitionManager _tileDefinitionManager = default!;
 
         public override void PreInit()
         {
@@ -38,8 +42,12 @@ namespace Content.Shared
         public override void PostInit()
         {
             base.PostInit();
-            // DEVNOTE: You might want to put special init handlers for, say, tiles here.
-            // TODO: Document what else you might want to put here
+
+            // Init tiles!
+            foreach (var tileDef in _prototypeManager.EnumeratePrototypes<ContentTileDefinition>())
+                _tileDefinitionManager.Register(tileDef);
+
+            _tileDefinitionManager.Initialize();
         }
     }
 }
