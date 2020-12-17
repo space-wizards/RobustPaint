@@ -7,12 +7,8 @@
     zoom: 1.0, 1.0
     drawFov: false
   - type: Input
-    context: "player"
+    context: "human"
   - type: Sprite
     texture: Constructible/Tiles/white.png
-  - type: PointLight
-    radius: 16
-    energy: 1
-    offset: "0, 0"
-    color: "#FFFFFF"
+  - type: PlayerKinesis
 
