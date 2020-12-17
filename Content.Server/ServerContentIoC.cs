@@ -7,6 +7,7 @@ namespace Content.Server
         public static void Register()
         {
             // DEVNOTE: IoCManager registrations for the server go here and only here.
+            IoCManager.Register<IngressExperienceManager, IngressExperienceManager>();
         }
     }
 }

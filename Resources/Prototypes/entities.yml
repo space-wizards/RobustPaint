@@ -1,0 +1,11 @@
+- type: entity
+  id: Player
+  description: "A player."
+  components:
+  - type: Eye
+    # This directly controls draw resolution.
+    zoom: 1.0, 1.0
+    drawFov: false
+  - type: Input
+    context: "player"
+
