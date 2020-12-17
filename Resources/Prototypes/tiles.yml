@@ -1,0 +1,15 @@
+- type: tile
+  name: black
+  display_name: black
+
+- type: tile
+  name: white
+  display_name: white
+
+- type: tile
+  name: lavender
+  display_name: lavender
+
+- type: tile
+  name: pink
+  display_name: pink
