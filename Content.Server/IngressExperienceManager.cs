@@ -53,6 +53,14 @@ namespace Content.Server
                 args.Session.AttachToEntity(playerEntity);
                 args.Session.JoinGame();
             }
+            else if ((args.NewStatus == SessionStatus.Disconnected) || (args.NewStatus == SessionStatus.Zombie))
+            {
+                var hasEnt = args.Session.AttachedEntity;
+                if (hasEnt != null) {
+                    args.Session.DetachFromEntity();
+                    hasEnt.Delete();
+                }
+            }
         }
     }
 }
