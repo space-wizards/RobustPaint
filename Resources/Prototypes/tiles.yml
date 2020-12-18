@@ -7,6 +7,10 @@
   display_name: white
 
 - type: tile
+  name: cyan
+  display_name: cyan
+
+- type: tile
   name: lavender
   display_name: lavender
 
