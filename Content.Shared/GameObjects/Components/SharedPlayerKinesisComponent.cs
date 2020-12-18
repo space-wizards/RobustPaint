@@ -8,6 +8,7 @@ using Robust.Shared.Serialization;
 using Robust.Shared.GameObjects;
 using Robust.Shared.Interfaces.GameObjects;
 using Robust.Shared.Interfaces.Network;
+using Robust.Shared.Log;
 
 namespace Content.Shared.GameObjects.Components
 {
@@ -30,8 +31,9 @@ namespace Content.Shared.GameObjects.Components
         /// <inheritdoc />
         public override void HandleComponentState(ComponentState curState, ComponentState nextState)
         {
+            if (nextState == null)
+                return;
             Velocity = ((PlayerKinesisComponentState) nextState).Velocity;
-
             Dirty();
         }
 
@@ -43,7 +45,10 @@ namespace Content.Shared.GameObjects.Components
             if (session.AttachedEntity != Owner)
                 return;
             if (message is PlayerKinesisUpdateMessage)
+            {
                 Velocity = ((PlayerKinesisUpdateMessage) message).Velocity;
+                Dirty();
+            }
         }
     }
 ﻿

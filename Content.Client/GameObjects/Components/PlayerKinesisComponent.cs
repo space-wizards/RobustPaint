@@ -37,6 +37,15 @@ namespace Content.Client.GameObjects.Components
             base.Shutdown();
         }
 
+        public override void HandleComponentState(ComponentState curState, ComponentState nextState)
+        {
+            // Only handle velocity updates provided for other players.
+            // This is because otherwise the prediction system has a nasty habit of getting "jerky".
+            if (_playerManager.LocalPlayer?.ControlledEntity == Owner)
+                return;
+            base.HandleComponentState(curState, nextState);
+        }
+
         private void KeyBindStateChanged(BoundKeyEventArgs ev)
         {
             if (_playerManager.LocalPlayer?.ControlledEntity != Owner)
@@ -72,17 +81,17 @@ namespace Content.Client.GameObjects.Components
 
         private void RecalculateVelocityAndTransmit()
         {
-            Velocity = new Vector2(0, 0);
+            Vector2 vel = new Vector2(0, 0);
             if (_left)
-                Velocity += new Vector2(-1, 0);
+                vel += new Vector2(-1, 0);
             if (_right)
-                Velocity += new Vector2(1, 0);
+                vel += new Vector2(1, 0);
             if (_up)
-                Velocity += new Vector2(0, 1);
+                vel += new Vector2(0, 1);
             if (_down)
-                Velocity += new Vector2(0, -1);
-            Velocity *= 16;
-            SendNetworkMessage(new PlayerKinesisUpdateMessage(Velocity));
+                vel += new Vector2(0, -1);
+            vel *= 16;
+            SendNetworkMessage(new PlayerKinesisUpdateMessage(vel));
         }
     }
 }
