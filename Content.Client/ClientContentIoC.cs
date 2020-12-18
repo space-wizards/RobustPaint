@@ -7,6 +7,7 @@ namespace Content.Client
         public static void Register()
         {
             // DEVNOTE: IoCManager registrations for the client go here and only here.
+            IoCManager.Register<ColourSelectorManager, ColourSelectorManager>();
         }
     }
 }

@@ -28,6 +28,7 @@ namespace Content.Client.GameObjects.Components
         [Dependency] private IPlayerManager _playerManager = default!;
         [Dependency] private IEyeManager _eyeManager = default!;
         [Dependency] private ITileDefinitionManager _tileDefinitionManager = default!;
+        [Dependency] private readonly ColourSelectorManager _colourSelectorManager = default!;
 
         private bool _down = false;
         private Vector2i _lastDrawn = new Vector2i(-8192, -8192);
@@ -92,6 +93,7 @@ namespace Content.Client.GameObjects.Components
             }
             if (handled)
             {
+                _colourSelectorManager.Update(Colour);
                 ev.Handle();
             }
         }

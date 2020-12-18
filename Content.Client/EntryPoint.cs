@@ -19,6 +19,7 @@ namespace Content.Client
         [Dependency] private readonly IGameController _gameController = default!;
         [Dependency] private readonly ILightManager _lightManager = default!;
         [Dependency] private readonly IInputManager _inputManager = default!;
+        [Dependency] private readonly ColourSelectorManager _colourSelectorManager = default!;
 
         public override void Init()
         {
@@ -56,6 +57,8 @@ namespace Content.Client
             human.AddFunction(ContentKeyFunctions.RP8NTNextColour);
             human.AddFunction(ContentKeyFunctions.RP8NTPrevColour);
             human.AddFunction(ContentKeyFunctions.RP8NTPlace);
+
+            _colourSelectorManager.Initialize();
 
             // >:D
             if (_gameController.LaunchState.FromLauncher)
