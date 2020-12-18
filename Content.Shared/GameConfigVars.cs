@@ -6,16 +6,12 @@ namespace Content.Shared
     // DEVNOTE: This is the same as SS14's CCVars. Except it's not named CCVars as that name is 
     // hot garbage.
     [CVarDefs]
-    public sealed class GameConfigVars: CVars
+    public sealed class GameConfigVars : CVars
     {
-        // Declare persistent game config variables here.
-        // ```
-        // public static readonly CVarDef<SerializableType>
-        //     VariableName = CVarDef.Create("namespace.varname", default_value, CVar.TYPE | CVar.OTHERTYPE)
-        // ``` 
-        // This is a good spot to store your database config, among other things.
+        public static readonly CVarDef<string>
+            MapFile = CVarDef.Create("game.savefile", "world.yml", CVar.SERVERONLY | CVar.ARCHIVE);
 
-        public static readonly CVarDef<bool>
-            DummyCVarForTemplate = CVarDef.Create("dummy.whydoineedthis", true, CVar.ARCHIVE);
+        public static readonly CVarDef<int>
+            SaveInterval = CVarDef.Create("game.saveinterval", 60, CVar.SERVERONLY | CVar.ARCHIVE);
     }
 }

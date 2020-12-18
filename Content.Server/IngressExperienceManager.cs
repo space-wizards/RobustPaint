@@ -1,4 +1,8 @@
+using System;
+using System.Threading;
+using Content.Shared;
 using Robust.Server.Interfaces.Player;
+using Robust.Server.Interfaces.Maps;
 using Robust.Server.Player;
 using Robust.Shared.Enums;
 using Robust.Shared.ContentPack;
@@ -6,8 +10,11 @@ using Robust.Shared.Interfaces.GameObjects;
 using Robust.Shared.Interfaces.Map;
 using Robust.Shared.Map;
 using Robust.Shared.IoC;
+using Robust.Shared.Log;
 using Robust.Shared.Timing;
 using Robust.Shared.Maths;
+using Robust.Shared.Interfaces.Configuration;
+using Timer = Robust.Shared.Timers.Timer;
 
 namespace Content.Server
 {
@@ -16,6 +23,7 @@ namespace Content.Server
         [Dependency] private IMapManager _mapManager = default!;
         [Dependency] private IEntityManager _entityManager = default!;
         [Dependency] private IPlayerManager _playerManager = default!;
+        [Dependency] private IConfigurationManager _cfg = default!;
 
         public MapId IngressMap { get; private set; }
         public IMapGrid IngressGrid { get; private set; }
@@ -25,22 +33,45 @@ namespace Content.Server
             // Create ingress point map.
             IngressMap = _mapManager.CreateMap();
 
-            IngressGrid = _mapManager.CreateGrid(IngressMap);
+            var world = IoCManager.Resolve<IMapLoader>().LoadBlueprint(IngressMap, _cfg.GetCVar(GameConfigVars.MapFile));
+            if (world == null)
+            {
+                IngressGrid = _mapManager.CreateGrid(IngressMap);
 
-            IngressGrid.SetTile(new Vector2i(-1, -1), new Tile(0));
-            IngressGrid.SetTile(new Vector2i(0, -1), new Tile(1));
-            IngressGrid.SetTile(new Vector2i(1, -1), new Tile(0));
+                IngressGrid.SetTile(new Vector2i(-1, -1), new Tile(0));
+                IngressGrid.SetTile(new Vector2i(0, -1), new Tile(1));
+                IngressGrid.SetTile(new Vector2i(1, -1), new Tile(0));
 
-            IngressGrid.SetTile(new Vector2i(-1, 0), new Tile(1));
-            IngressGrid.SetTile(new Vector2i(0, 0), new Tile(0));
-            IngressGrid.SetTile(new Vector2i(1, 0), new Tile(1));
+                IngressGrid.SetTile(new Vector2i(-1, 0), new Tile(1));
+                IngressGrid.SetTile(new Vector2i(0, 0), new Tile(0));
+                IngressGrid.SetTile(new Vector2i(1, 0), new Tile(1));
 
-            IngressGrid.SetTile(new Vector2i(-1, 1), new Tile(0));
-            IngressGrid.SetTile(new Vector2i(0, 1), new Tile(1));
-            IngressGrid.SetTile(new Vector2i(1, 1), new Tile(0));
+                IngressGrid.SetTile(new Vector2i(-1, 1), new Tile(0));
+                IngressGrid.SetTile(new Vector2i(0, 1), new Tile(1));
+                IngressGrid.SetTile(new Vector2i(1, 1), new Tile(0));
+            }
+            else
+            {
+                IngressGrid = world;
+            }
 
             // Setup join experience.
             _playerManager.PlayerStatusChanged += PlayerStatusChanged;
+
+            StartAutosaveTimer();
+        }
+
+        private void StartAutosaveTimer()
+        {
+            Timer.Spawn(TimeSpan.FromSeconds(_cfg.GetCVar(GameConfigVars.SaveInterval)), () => Autosave());
+        }
+
+        private void Autosave()
+        {
+            var file = _cfg.GetCVar(GameConfigVars.MapFile);
+            Logger.InfoS("c.s.ingress", "Saving {0}", file);
+            IoCManager.Resolve<IMapLoader>().SaveBlueprint(IngressGrid.Index, file);
+            StartAutosaveTimer();
         }
 
         private void PlayerStatusChanged(object blah, SessionStatusEventArgs args)

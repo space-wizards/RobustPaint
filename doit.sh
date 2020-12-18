@@ -19,3 +19,5 @@ cp RobustToolbox/LICENSE-MIT.TXT obj/
 rm -f kdc_paint.zip
 cd obj
 zip -r ../kdc_paint.zip *
+
+# scp -P 28421 kdc_paint.zip 192.168.0.70:/mnt/drive/http/kdc_paint_2.zip
