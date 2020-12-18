@@ -11,4 +11,5 @@
   - type: Sprite
     texture: player.png
   - type: PlayerKinesis
+  - type: PlayerBrush
 
