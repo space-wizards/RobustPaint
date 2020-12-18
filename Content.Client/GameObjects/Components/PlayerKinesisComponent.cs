@@ -90,7 +90,7 @@ namespace Content.Client.GameObjects.Components
                 vel += new Vector2(0, 1);
             if (_down)
                 vel += new Vector2(0, -1);
-            vel *= 16;
+            vel *= 6;
             SendNetworkMessage(new PlayerKinesisUpdateMessage(vel));
         }
     }
