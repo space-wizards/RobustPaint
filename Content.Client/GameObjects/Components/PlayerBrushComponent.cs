@@ -8,8 +8,10 @@ using Robust.Shared.Map;
 using Robust.Shared.Log;
 using Robust.Shared.Input.Binding;
 using Robust.Shared.Interfaces.GameObjects;
+using Robust.Shared.Interfaces.Map;
 using Robust.Shared.IoC;
 using Robust.Client.Interfaces.Input;
+using Robust.Client.Interfaces.Graphics.ClientEye;
 using Robust.Client.Player;
 
 namespace Content.Client.GameObjects.Components
@@ -24,10 +26,13 @@ namespace Content.Client.GameObjects.Components
     {
         [Dependency] private IInputManager _inputManager = default!;
         [Dependency] private IPlayerManager _playerManager = default!;
-        [Dependency] private IEntityManager _entityManager = default!;
+        [Dependency] private IEyeManager _eyeManager = default!;
+        [Dependency] private ITileDefinitionManager _tileDefinitionManager = default!;
 
         private bool _down = false;
         private Vector2i _lastDrawn = new Vector2i(-8192, -8192);
+
+        public ushort Colour { get; set; } = 2;
 
         public override void Initialize()
         {
@@ -55,6 +60,36 @@ namespace Content.Client.GameObjects.Components
                 // Logger.WarningS("c.c.go.co.brush", "!");
                 handled = true;
             }
+            else if (ev.Function == ContentKeyFunctions.RP8NTNextColour)
+            {
+                if (val)
+                {
+                    if (Colour >= _tileDefinitionManager.Count - 1)
+                    {
+                        Colour = 0;
+                    }
+                    else
+                    {
+                        Colour++;
+                    }
+                }
+                handled = true;
+            }
+            else if (ev.Function == ContentKeyFunctions.RP8NTPrevColour)
+            {
+                if (val)
+                {
+                    if (Colour <= 0)
+                    {
+                        Colour = (ushort) (_tileDefinitionManager.Count - 1);
+                    }
+                    else
+                    {
+                        Colour--;
+                    }
+                }
+                handled = true;
+            }
             if (handled)
             {
                 ev.Handle();
@@ -66,10 +101,10 @@ namespace Content.Client.GameObjects.Components
             if (!_down)
                 return;
 
-            var (x, y) = Owner.Transform.Coordinates.ToMapPos(_entityManager);
+            var (x, y) = _eyeManager.ScreenToMap(_inputManager.MouseScreenPosition);
             var pos = new Vector2i((int) Math.Floor(x), (int) Math.Floor(y));
             if (_lastDrawn != pos) {
-                SendNetworkMessage(new PlayerBrushApplyMessage(pos, 2));
+                SendNetworkMessage(new PlayerBrushApplyMessage(pos, Colour));
                 _lastDrawn = pos;
             }
         }

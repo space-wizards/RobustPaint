@@ -14,13 +14,13 @@ binds:
   key: D
 - function: RP8NTNextColour
   type: State
-  key: E
+  key: Q
 - function: RP8NTPrevColour
   type: State
-  key: R
+  key: E
 - function: RP8NTPlace
   type: State
-  key: Q
+  key: MouseLeft
 - function: UIClick
   type: State
   key: MouseLeft
