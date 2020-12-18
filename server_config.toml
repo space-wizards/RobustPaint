@@ -9,17 +9,15 @@ enabled = true
 tickrate = 60
 port = 1212
 bindto = "::,0.0.0.0"
+pvs = false
 
 [status]
 enabled = true
 bind = "*:1212"
 
 [game]
-hostname = "Operation 'Bloody Hell, m8'"
-mapname = "stationstation"
-maxplayers = 128
-type = 171220
-welcomemsg = "Welcome to the server!"
+savefile = "world.yml"
+saveinterval = 60
 
 [console]
 width = 120
@@ -34,7 +32,4 @@ fork_id = "kdc_paint"
 version = "2012180"
 download_url = "https://20kdc.duckdns.org/kdc_paint_2.zip"
 hash = "20e5452287c445e6ca567357aa725ba41db9cc235978a9c607313c195ac03e9e"
-
-[net]
-pvs = false
 
