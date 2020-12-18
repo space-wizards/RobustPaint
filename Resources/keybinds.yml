@@ -1,5 +1,26 @@
 ﻿version: 1 # Not used right now, whatever.
 binds:
+- function: MoveUp
+  type: State
+  key: W
+- function: MoveDown
+  type: State
+  key: S
+- function: MoveLeft
+  type: State
+  key: A
+- function: MoveRight
+  type: State
+  key: D
+- function: RP8NTNextColour
+  type: State
+  key: E
+- function: RP8NTPrevColour
+  type: State
+  key: Q
+- function: RP8NTPlace
+  type: State
+  key: MouseLeft
 - function: UIClick
   type: State
   key: MouseLeft

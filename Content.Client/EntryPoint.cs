@@ -1,4 +1,6 @@
+using Content.Shared.Input;
 using Robust.Client.Interfaces;
+using Robust.Client.Interfaces.Input;
 using Robust.Client.Interfaces.Graphics.Lighting;
 using Robust.Shared.ContentPack;
 using Robust.Shared.Interfaces.Configuration;
@@ -16,6 +18,7 @@ namespace Content.Client
         [Dependency] private readonly IBaseClient _baseClient = default!;
         [Dependency] private readonly IGameController _gameController = default!;
         [Dependency] private readonly ILightManager _lightManager = default!;
+        // [Dependency] private readonly IInputManager _inputManager = default!;
 
         public override void Init()
         {

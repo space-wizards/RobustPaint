@@ -5,7 +5,8 @@ namespace Content.Shared.Input
     [KeyFunctions]
     public static class ContentKeyFunctions
     {
-        // DEVNOTE: Stick keys you want to be bindable here.
-        // public static readonly DummyKey = "DummyKey";
+        public static readonly BoundKeyFunction RP8NTNextColour = "RP8NTNextColour";
+        public static readonly BoundKeyFunction RP8NTPrevColour = "RP8NTPrevColour";
+        public static readonly BoundKeyFunction RP8NTPlace = "RP8NTPlace";
     }
 }
