@@ -1,12 +1,16 @@
+using System;
 using Content.Shared.GameObjects.Components;
 using Content.Shared.Input;
 using Robust.Shared.GameObjects;
 using Robust.Shared.Input;
 using Robust.Shared.Maths;
+using Robust.Shared.Map;
+using Robust.Shared.Log;
 using Robust.Shared.Input.Binding;
+using Robust.Shared.Interfaces.GameObjects;
+using Robust.Shared.IoC;
 using Robust.Client.Interfaces.Input;
 using Robust.Client.Player;
-using Robust.Shared.IoC;
 
 namespace Content.Client.GameObjects.Components
 {
@@ -20,8 +24,10 @@ namespace Content.Client.GameObjects.Components
     {
         [Dependency] private IInputManager _inputManager = default!;
         [Dependency] private IPlayerManager _playerManager = default!;
+        [Dependency] private IEntityManager _entityManager = default!;
 
         private bool _down = false;
+        private Vector2i _lastDrawn = new Vector2i(-8192, -8192);
 
         public override void Initialize()
         {
@@ -44,6 +50,9 @@ namespace Content.Client.GameObjects.Components
             if (ev.Function == ContentKeyFunctions.RP8NTPlace)
             {
                 _down = val;
+                if (!val)
+                    _lastDrawn = new Vector2i(-8192, -8192);
+                // Logger.WarningS("c.c.go.co.brush", "!");
                 handled = true;
             }
             if (handled)
@@ -54,8 +63,15 @@ namespace Content.Client.GameObjects.Components
 
         public void Update()
         {
-            // TODO: Stuff!
-            //SendNetworkMessage(new PlayerKinesisUpdateMessage(vel));
+            if (!_down)
+                return;
+
+            var (x, y) = Owner.Transform.Coordinates.ToMapPos(_entityManager);
+            var pos = new Vector2i((int) Math.Floor(x), (int) Math.Floor(y));
+            if (_lastDrawn != pos) {
+                SendNetworkMessage(new PlayerBrushApplyMessage(pos, 2));
+                _lastDrawn = pos;
+            }
         }
     }
 }

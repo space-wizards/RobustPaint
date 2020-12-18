@@ -18,14 +18,15 @@ namespace Content.Shared.GameObjects.Components
     public abstract class SharedPlayerBrushComponent : Component
     {
         public override string Name => "PlayerBrush";
+        public override uint? NetID => ContentNetIDs.PLAYER_BRUSH;
     }
 ﻿
     [Serializable, NetSerializable]
     public class PlayerBrushApplyMessage : ComponentMessage
     {
         public readonly Vector2i Position;
-        public readonly int Type;
-        public PlayerBrushApplyMessage(Vector2i pos, int type)
+        public readonly ushort Type;
+        public PlayerBrushApplyMessage(Vector2i pos, ushort type)
         {
             Position = pos;
             Type = type;

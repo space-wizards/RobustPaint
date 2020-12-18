@@ -4,5 +4,6 @@
     public static class ContentNetIDs
     {
         public const uint PLAYER_KINESIS = 1000;
+        public const uint PLAYER_BRUSH = 1001;
     }
 }

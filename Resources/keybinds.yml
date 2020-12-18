@@ -17,10 +17,10 @@ binds:
   key: E
 - function: RP8NTPrevColour
   type: State
-  key: Q
+  key: R
 - function: RP8NTPlace
   type: State
-  key: MouseLeft
+  key: Q
 - function: UIClick
   type: State
   key: MouseLeft

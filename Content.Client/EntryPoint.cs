@@ -18,7 +18,7 @@ namespace Content.Client
         [Dependency] private readonly IBaseClient _baseClient = default!;
         [Dependency] private readonly IGameController _gameController = default!;
         [Dependency] private readonly ILightManager _lightManager = default!;
-        // [Dependency] private readonly IInputManager _inputManager = default!;
+        [Dependency] private readonly IInputManager _inputManager = default!;
 
         public override void Init()
         {
@@ -52,6 +52,10 @@ namespace Content.Client
 
             // *whistles innocently*
             _lightManager.Enabled = false;
+            var human = _inputManager.Contexts.GetContext("human");
+            human.AddFunction(ContentKeyFunctions.RP8NTNextColour);
+            human.AddFunction(ContentKeyFunctions.RP8NTPrevColour);
+            human.AddFunction(ContentKeyFunctions.RP8NTPlace);
 
             // >:D
             if (_gameController.LaunchState.FromLauncher)

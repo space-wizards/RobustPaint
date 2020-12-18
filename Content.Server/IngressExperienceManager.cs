@@ -18,25 +18,26 @@ namespace Content.Server
         [Dependency] private IPlayerManager _playerManager = default!;
 
         public MapId IngressMap { get; private set; }
+        public IMapGrid IngressGrid { get; private set; }
 
         public void Initialize()
         {
             // Create ingress point map.
             IngressMap = _mapManager.CreateMap();
 
-            var simpleGrid = _mapManager.CreateGrid(IngressMap);
+            IngressGrid = _mapManager.CreateGrid(IngressMap);
 
-            simpleGrid.SetTile(new Vector2i(-1, -1), new Tile(0));
-            simpleGrid.SetTile(new Vector2i(0, -1), new Tile(1));
-            simpleGrid.SetTile(new Vector2i(1, -1), new Tile(0));
+            IngressGrid.SetTile(new Vector2i(-1, -1), new Tile(0));
+            IngressGrid.SetTile(new Vector2i(0, -1), new Tile(1));
+            IngressGrid.SetTile(new Vector2i(1, -1), new Tile(0));
 
-            simpleGrid.SetTile(new Vector2i(-1, 0), new Tile(1));
-            simpleGrid.SetTile(new Vector2i(0, 0), new Tile(0));
-            simpleGrid.SetTile(new Vector2i(1, 0), new Tile(1));
+            IngressGrid.SetTile(new Vector2i(-1, 0), new Tile(1));
+            IngressGrid.SetTile(new Vector2i(0, 0), new Tile(0));
+            IngressGrid.SetTile(new Vector2i(1, 0), new Tile(1));
 
-            simpleGrid.SetTile(new Vector2i(-1, 1), new Tile(0));
-            simpleGrid.SetTile(new Vector2i(0, 1), new Tile(1));
-            simpleGrid.SetTile(new Vector2i(1, 1), new Tile(0));
+            IngressGrid.SetTile(new Vector2i(-1, 1), new Tile(0));
+            IngressGrid.SetTile(new Vector2i(0, 1), new Tile(1));
+            IngressGrid.SetTile(new Vector2i(1, 1), new Tile(0));
 
             // Setup join experience.
             _playerManager.PlayerStatusChanged += PlayerStatusChanged;

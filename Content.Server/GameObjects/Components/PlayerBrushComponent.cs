@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Content.Shared.GameObjects;
 using Content.Shared.GameObjects.Components;
+using Content.Server;
 using Robust.Shared.Maths;
 using Robust.Shared.Physics;
 using Robust.Shared.Players;
@@ -9,6 +10,9 @@ using Robust.Shared.Serialization;
 using Robust.Shared.GameObjects;
 using Robust.Shared.Interfaces.GameObjects;
 using Robust.Shared.Interfaces.Network;
+using Robust.Shared.Interfaces.Map;
+using Robust.Shared.Map;
+using Robust.Shared.IoC;
 using Robust.Shared.Log;
 
 namespace Content.Server.GameObjects.Components
@@ -21,6 +25,8 @@ namespace Content.Server.GameObjects.Components
     [ComponentReference(typeof(SharedPlayerBrushComponent))]
     public class PlayerBrushComponent : SharedPlayerBrushComponent
     {
+        [Dependency] private IngressExperienceManager _ingressExperienceManager = default!;
+        [Dependency] private ITileDefinitionManager _tileDefinitionManager = default!;
         /// <inheritdoc />
         public override void HandleNetworkMessage(ComponentMessage message, INetChannel netChannel, ICommonSession session) {
             base.HandleNetworkMessage(message, netChannel, session);
@@ -30,7 +36,13 @@ namespace Content.Server.GameObjects.Components
                 return;
             if (message is PlayerBrushApplyMessage)
             {
-                // TODO
+                var msg = (PlayerBrushApplyMessage) message;
+                if (msg.Type < 0)
+                    return;
+                if (msg.Type >= _tileDefinitionManager.Count)
+                    return;
+                Logger.WarningS("c.s.go.co.brush", "{0} at {1} = {2}", session, msg.Position, msg.Type);
+                _ingressExperienceManager.IngressGrid.SetTile(msg.Position, new Tile(msg.Type));
             }
         }
     }
