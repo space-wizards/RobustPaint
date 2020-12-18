@@ -1,0 +1,36 @@
+﻿
+[log]
+path = "logs"
+format = "log_%(date)s-%(time)s.txt"
+level = 1
+enabled = true
+
+[net]
+tickrate = 60
+port = 1212
+bindto = "::,0.0.0.0"
+
+[status]
+enabled = true
+bind = "*:1212"
+
+[game]
+hostname = "Operation 'Bloody Hell, m8'"
+mapname = "stationstation"
+maxplayers = 128
+type = 171220
+welcomemsg = "Welcome to the server!"
+
+[console]
+width = 120
+height = 60
+password = "operationbloodyhellm8"
+hostpassword = "operationbloodyhellm8"
+loginlocal = true
+
+[build]
+engine_version = "0.2.3"
+fork_id = "kdc_paint"
+version = "171220"
+download_url = "https://20kdc.duckdns.org/kdc_paint_1.zip"
+hash = ""
