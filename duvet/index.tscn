@@ -1,0 +1,182 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://timecircuits/timecircuit.tscn" type="PackedScene" id=1]
+[ext_resource path="res://duvet/ui.gd" type="Script" id=2]
+[ext_resource path="res://icon.png" type="Texture" id=3]
+[ext_resource path="res://selected.png" type="Texture" id=4]
+[ext_resource path="res://duvet/keysim.gd" type="Script" id=5]
+
+[node name="Control" type="VBoxContainer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="PanelContainer" parent="."]
+margin_right = 1024.0
+margin_bottom = 34.0
+
+[node name="Timecircuit" parent="VBoxContainer" instance=ExtResource( 1 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_left = 7.0
+margin_top = 7.0
+margin_right = 1017.0
+margin_bottom = 27.0
+
+[node name="HBoxContainer" type="HSplitContainer" parent="."]
+margin_top = 38.0
+margin_right = 1024.0
+margin_bottom = 600.0
+size_flags_vertical = 3
+
+[node name="PanelContainer" type="PanelContainer" parent="HBoxContainer"]
+margin_right = 817.0
+margin_bottom = 562.0
+size_flags_horizontal = 3
+
+[node name="TextureRect" type="TextureRect" parent="HBoxContainer/PanelContainer"]
+margin_left = 7.0
+margin_top = 7.0
+margin_right = 810.0
+margin_bottom = 555.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = ExtResource( 3 )
+expand = true
+stretch_mode = 6
+
+[node name="CenterContainer" type="CenterContainer" parent="HBoxContainer/PanelContainer"]
+margin_left = 7.0
+margin_top = 7.0
+margin_right = 810.0
+margin_bottom = 555.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="indicatorHope" type="TextureRect" parent="HBoxContainer/PanelContainer/CenterContainer"]
+margin_left = 385.0
+margin_top = 258.0
+margin_right = 417.0
+margin_bottom = 290.0
+texture = ExtResource( 4 )
+stretch_mode = 4
+
+[node name="PanelContainer2" type="VBoxContainer" parent="HBoxContainer"]
+margin_left = 829.0
+margin_right = 1024.0
+margin_bottom = 562.0
+
+[node name="PanelContainer" type="PanelContainer" parent="HBoxContainer/PanelContainer2"]
+margin_right = 195.0
+margin_bottom = 387.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="ItemList" type="ItemList" parent="HBoxContainer/PanelContainer2/PanelContainer"]
+margin_left = 7.0
+margin_top = 7.0
+margin_right = 188.0
+margin_bottom = 380.0
+
+[node name="PanelContainer2" type="PanelContainer" parent="HBoxContainer/PanelContainer2"]
+margin_top = 391.0
+margin_right = 195.0
+margin_bottom = 562.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/PanelContainer2/PanelContainer2"]
+margin_left = 7.0
+margin_top = 7.0
+margin_right = 188.0
+margin_bottom = 164.0
+
+[node name="PanelContainer" type="PanelContainer" parent="HBoxContainer/PanelContainer2/PanelContainer2/VBoxContainer"]
+margin_right = 181.0
+margin_bottom = 93.0
+
+[node name="GridContainer" type="GridContainer" parent="HBoxContainer/PanelContainer2/PanelContainer2/VBoxContainer/PanelContainer"]
+margin_left = 7.0
+margin_top = 7.0
+margin_right = 174.0
+margin_bottom = 86.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+columns = 3
+
+[node name="Control" type="Control" parent="HBoxContainer/PanelContainer2/PanelContainer2/VBoxContainer/PanelContainer/GridContainer"]
+margin_right = 53.0
+margin_bottom = 20.0
+size_flags_horizontal = 3
+
+[node name="Control2" type="Button" parent="HBoxContainer/PanelContainer2/PanelContainer2/VBoxContainer/PanelContainer/GridContainer"]
+margin_left = 57.0
+margin_right = 110.0
+margin_bottom = 20.0
+size_flags_horizontal = 3
+text = "^"
+
+[node name="Control3" type="Control" parent="HBoxContainer/PanelContainer2/PanelContainer2/VBoxContainer/PanelContainer/GridContainer"]
+margin_left = 114.0
+margin_right = 167.0
+margin_bottom = 20.0
+size_flags_horizontal = 3
+
+[node name="Control4" type="Button" parent="HBoxContainer/PanelContainer2/PanelContainer2/VBoxContainer/PanelContainer/GridContainer"]
+margin_top = 24.0
+margin_right = 53.0
+margin_bottom = 55.0
+text = "<"
+
+[node name="Control5" type="Label" parent="HBoxContainer/PanelContainer2/PanelContainer2/VBoxContainer/PanelContainer/GridContainer"]
+margin_left = 57.0
+margin_top = 24.0
+margin_right = 110.0
+margin_bottom = 55.0
+focus_mode = 2
+mouse_filter = 1
+text = "CLICK
+HERE"
+align = 1
+script = ExtResource( 5 )
+
+[node name="Control6" type="Button" parent="HBoxContainer/PanelContainer2/PanelContainer2/VBoxContainer/PanelContainer/GridContainer"]
+margin_left = 114.0
+margin_top = 24.0
+margin_right = 167.0
+margin_bottom = 55.0
+text = ">"
+
+[node name="Control7" type="Control" parent="HBoxContainer/PanelContainer2/PanelContainer2/VBoxContainer/PanelContainer/GridContainer"]
+margin_top = 59.0
+margin_right = 53.0
+margin_bottom = 79.0
+
+[node name="Control8" type="Button" parent="HBoxContainer/PanelContainer2/PanelContainer2/VBoxContainer/PanelContainer/GridContainer"]
+margin_left = 57.0
+margin_top = 59.0
+margin_right = 110.0
+margin_bottom = 79.0
+text = "v"
+
+[node name="clabel" type="Label" parent="HBoxContainer/PanelContainer2/PanelContainer2/VBoxContainer"]
+margin_top = 97.0
+margin_right = 181.0
+margin_bottom = 111.0
+text = "Coordinates Of Selected Tile"
+
+[node name="Coordinates" type="Label" parent="HBoxContainer/PanelContainer2/PanelContainer2/VBoxContainer"]
+margin_top = 115.0
+margin_right = 181.0
+margin_bottom = 129.0
+
+[node name="IBSACb" type="CheckBox" parent="HBoxContainer/PanelContainer2/PanelContainer2/VBoxContainer"]
+margin_top = 133.0
+margin_right = 181.0
+margin_bottom = 157.0
+text = "Same Author In Yellow"
+[connection signal="pressed" from="HBoxContainer/PanelContainer2/PanelContainer2/VBoxContainer/PanelContainer/GridContainer/Control2" to="." method="_fine_up"]
+[connection signal="pressed" from="HBoxContainer/PanelContainer2/PanelContainer2/VBoxContainer/PanelContainer/GridContainer/Control4" to="." method="_fine_left"]
+[connection signal="pressed" from="HBoxContainer/PanelContainer2/PanelContainer2/VBoxContainer/PanelContainer/GridContainer/Control6" to="." method="_fine_right"]
+[connection signal="pressed" from="HBoxContainer/PanelContainer2/PanelContainer2/VBoxContainer/PanelContainer/GridContainer/Control8" to="." method="_fine_down"]

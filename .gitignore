@@ -5,3 +5,7 @@ kdc_paint.zip
 .DS_Store
 # banish KDE
 .directory
+
+# Project Duvet
+duvet/.import
+duvet/logs/*

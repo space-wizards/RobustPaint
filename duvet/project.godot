@@ -1,0 +1,49 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
+config_version=4
+
+_global_script_classes=[ {
+"base": "Reference",
+"class": "DuvetChange",
+"language": "GDScript",
+"path": "res://duvet/change.gd"
+}, {
+"base": "Reference",
+"class": "DuvetRoot",
+"language": "GDScript",
+"path": "res://duvet/root.gd"
+}, {
+"base": "HBoxContainer",
+"class": "DuvetTimeCircuit",
+"language": "GDScript",
+"path": "res://timecircuits/timecircuit.gd"
+} ]
+_global_script_class_icons={
+"DuvetChange": "",
+"DuvetRoot": "",
+"DuvetTimeCircuit": ""
+}
+
+[application]
+
+config/name="Duvet"
+run/main_scene="res://database_loader.tscn"
+config/icon="res://icon.png"
+
+[autoload]
+
+DuvetManager="*res://duvet/duvet_manager.gd"
+
+[rendering]
+
+quality/driver/driver_name="GLES2"
+quality/2d/use_pixel_snap=true
+vram_compression/import_etc=true
+vram_compression/import_etc2=false
+environment/default_environment="res://default_env.tres"
