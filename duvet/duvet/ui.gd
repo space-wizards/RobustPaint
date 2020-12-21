@@ -7,6 +7,7 @@ onready var pixel_history: ItemList = find_node("Pixel History")
 onready var user_history: ItemList = find_node("UserHistoryList")
 onready var user_history_label: Label = find_node("UserHistoryLabel")
 onready var ibsca: CheckBox = find_node("IBSACb")
+onready var tccb: CheckBox = find_node("TCCb")
 var main_display_image_texture: ImageTexture
 
 const VIEW_SIZE = 97
@@ -25,6 +26,7 @@ func _ready():
 	main_display.texture = main_display_image_texture
 	timecircuit.connect("time_changed", self, "_update_dsky")
 	ibsca.connect("pressed", self, "_update_dsky")
+	tccb.connect("pressed", self, "_update_dsky")
 	pixel_history.connect("item_selected", self, "_listtravel", [pixel_history])
 	user_history.connect("item_selected", self, "_listtravel", [user_history])
 	pixel_history.connect("item_activated", self, "_listtravel", [pixel_history])
@@ -39,12 +41,15 @@ func _update_dsky():
 	var ch_ref: DuvetChange = db.state_at_time(camX, camY, time)
 	# main
 	dsky_image.lock()
+	var default_state = Color.red
+	if tccb.pressed:
+		default_state = Color.black
 	for x in range(VIEW_SIZE):
 		for y in range(VIEW_SIZE):
 			var tx = camX + (x - VIEW_CEN)
 			var ty = camY - (y - VIEW_CEN)
 			var ch: DuvetChange = db.state_at_time(tx, ty, time)
-			var state = Color.red
+			var state = default_state
 			if ch != null:
 				state = colours[ch.value]
 				if (ibsca.pressed) and (ch_ref != null):

@@ -71,7 +71,7 @@ margin_bottom = 562.0
 
 [node name="PanelContainer" type="PanelContainer" parent="HBoxContainer/PanelContainer2"]
 margin_right = 195.0
-margin_bottom = 387.0
+margin_bottom = 359.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
@@ -79,7 +79,7 @@ size_flags_vertical = 3
 margin_left = 7.0
 margin_top = 7.0
 margin_right = 188.0
-margin_bottom = 380.0
+margin_bottom = 352.0
 
 [node name="Pixel History" type="ItemList" parent="HBoxContainer/PanelContainer2/PanelContainer/TabContainer"]
 anchor_right = 1.0
@@ -132,7 +132,7 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="PanelContainer2" type="PanelContainer" parent="HBoxContainer/PanelContainer2"]
-margin_top = 391.0
+margin_top = 363.0
 margin_right = 195.0
 margin_bottom = 562.0
 
@@ -140,7 +140,7 @@ margin_bottom = 562.0
 margin_left = 7.0
 margin_top = 7.0
 margin_right = 188.0
-margin_bottom = 164.0
+margin_bottom = 192.0
 
 [node name="PanelContainer" type="PanelContainer" parent="HBoxContainer/PanelContainer2/PanelContainer2/VBoxContainer"]
 margin_right = 181.0
@@ -227,6 +227,12 @@ margin_top = 133.0
 margin_right = 181.0
 margin_bottom = 157.0
 text = "Same Author In Yellow"
+
+[node name="TCCb" type="CheckBox" parent="HBoxContainer/PanelContainer2/PanelContainer2/VBoxContainer"]
+margin_top = 161.0
+margin_right = 181.0
+margin_bottom = 185.0
+text = "Truecolour"
 [connection signal="pressed" from="HBoxContainer/PanelContainer2/PanelContainer/TabContainer/User History/Button" to="." method="_setup_user_history"]
 [connection signal="pressed" from="HBoxContainer/PanelContainer2/PanelContainer2/VBoxContainer/PanelContainer/GridContainer/Control2" to="." method="_fine_up"]
 [connection signal="pressed" from="HBoxContainer/PanelContainer2/PanelContainer2/VBoxContainer/PanelContainer/GridContainer/Control4" to="." method="_fine_left"]
