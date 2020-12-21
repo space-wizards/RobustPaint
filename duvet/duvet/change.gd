@@ -4,7 +4,7 @@ extends Reference
 export var pos: String = "(0, 0)"
 export var who: String = ""
 export var when: float = 0.0
-export var when_original: String = ""
+export var log_line: String = ""
 export var value: int = 0
 
 func _get_split_pos() -> PoolStringArray:

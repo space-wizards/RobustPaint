@@ -171,10 +171,13 @@ func _on_export():
 	fn.store_line(" <h2>Data</h2>")
 	fn.store_line(" <table border=\"1\">")
 	fn.store_line("  <tr><td>Incident ID</td><td>" + coordinates_line.text + "</td></tr>")
-	fn.store_line("  <tr><td>Position</td><td>" + db.format_pos(camX, camY) + "</td></tr>")
+	fn.store_line("  <tr><td>Pos</td><td>" + db.format_pos(camX, camY) + "</td></tr>")
 	if ch_ref != null:
-		fn.store_line("  <tr><td>ch_ref.who</td><td>" + ch_ref.who + "</td></tr>")
-		fn.store_line("  <tr><td>ch_ref.when_original</td><td>" + ch_ref.when_original + "</td></tr>")
+		fn.store_line("  <tr><td>Pos Author</td><td>" + ch_ref.who + "</td></tr>")
+		fn.store_line("  <tr><td>Log Line</td><td>" + ch_ref.log_line + "</td></tr>")
+	else:
+		fn.store_line("  <tr><td>Pos Author</td><td>?</td></tr>")
+		fn.store_line("  <tr><td>Log Line</td><td>?</td></tr>")
 	fn.store_line(" </table>")
 	fn.store_line(" <h2>Notes</h2>")
 	fn.store_line(" <p>")

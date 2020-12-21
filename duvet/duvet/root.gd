@@ -75,6 +75,6 @@ func try_add_change(c: String) -> void:
 	dc.pos = contentC2[0]
 	dc.who = contentC1[0]
 	dc.when = date
-	dc.when_original = dateOriginal
+	dc.log_line = c
 	dc.value = int(contentC2[1])
 	add_change(dc)
