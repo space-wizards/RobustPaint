@@ -21,19 +21,25 @@ namespace Content.Shared.GameObjects.Components
         public override uint? NetID => ContentNetIDs.PLAYER_KINESIS;
 
         public Vector2 Velocity { get; set; } = new Vector2(0, 0);
+        public Box2 TravelBounds { get; set; } = new Box2();
+
+        protected virtual bool _shouldHandleVelocity => true;
 
         /// <inheritdoc />
         public override ComponentState GetComponentState()
         {
-            return new PlayerKinesisComponentState(Velocity);
+            return new PlayerKinesisComponentState(Velocity, TravelBounds);
         }
 
         /// <inheritdoc />
         public override void HandleComponentState(ComponentState curState, ComponentState nextState)
         {
+            base.HandleComponentState(curState, nextState);
             if (nextState == null)
                 return;
-            Velocity = ((PlayerKinesisComponentState) nextState).Velocity;
+            if (_shouldHandleVelocity)
+                Velocity = ((PlayerKinesisComponentState) nextState).Velocity;
+            TravelBounds = ((PlayerKinesisComponentState) nextState).TravelBounds;
             Dirty();
         }
 
@@ -56,9 +62,11 @@ namespace Content.Shared.GameObjects.Components
     public class PlayerKinesisComponentState : ComponentState
     {
         public readonly Vector2 Velocity;
-        public PlayerKinesisComponentState(Vector2 vel) : base(ContentNetIDs.PLAYER_KINESIS)
+        public readonly Box2 TravelBounds;
+        public PlayerKinesisComponentState(Vector2 vel, Box2 travelBounds) : base(ContentNetIDs.PLAYER_KINESIS)
         {
             Velocity = vel;
+            TravelBounds = travelBounds;
         }
     }
 

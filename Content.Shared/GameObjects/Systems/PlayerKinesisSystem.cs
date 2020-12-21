@@ -13,7 +13,10 @@ namespace Content.Shared.GameObjects.EntitySystems
 
             foreach (var kinesis in ComponentManager.EntityQuery<SharedPlayerKinesisComponent>())
             {
-                kinesis.Owner.Transform.LocalPosition += (kinesis.Velocity * frameTime);
+                var localPosition = kinesis.Owner.Transform.LocalPosition;
+                localPosition += (kinesis.Velocity * frameTime);
+                localPosition = kinesis.TravelBounds.ClosestPoint(localPosition);
+                kinesis.Owner.Transform.LocalPosition = localPosition;
             }
         }
     }

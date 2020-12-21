@@ -41,8 +41,15 @@ namespace Content.Server.GameObjects.Components
                     return;
                 if (msg.Type >= _tileDefinitionManager.Count)
                     return;
-                Logger.WarningS("c.s.go.co.brush", "{0} at {1} = {2}", session, msg.Position, msg.Type);
-                _ingressExperienceManager.IngressGrid.SetTile(msg.Position, new Tile(msg.Type));
+                if (_ingressExperienceManager.MapExtent.Contains(msg.Position))
+                {
+                    var tile = new Tile(msg.Type);
+                    if (_ingressExperienceManager.IngressGrid.GetTileRef(msg.Position).Tile != tile)
+                    {
+                        Logger.WarningS("c.s.go.co.brush", "{0} at {1} = {2}", session, msg.Position, msg.Type);
+                        _ingressExperienceManager.IngressGrid.SetTile(msg.Position, tile);
+                    }
+                }
             }
         }
     }

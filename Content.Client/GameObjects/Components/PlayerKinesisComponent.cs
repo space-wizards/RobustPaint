@@ -20,6 +20,10 @@ namespace Content.Client.GameObjects.Components
         [Dependency] private IInputManager _inputManager = default!;
         [Dependency] private IPlayerManager _playerManager = default!;
 
+        // Only handle velocity updates provided for other players.
+        // This is because otherwise the prediction system has a nasty habit of getting "jerky".
+        protected override bool _shouldHandleVelocity => _playerManager.LocalPlayer?.ControlledEntity != Owner;
+
         private bool _left = false;
         private bool _right = false;
         private bool _up = false;
@@ -35,15 +39,6 @@ namespace Content.Client.GameObjects.Components
         {
             _inputManager.KeyBindStateChanged -= KeyBindStateChanged;
             base.Shutdown();
-        }
-
-        public override void HandleComponentState(ComponentState curState, ComponentState nextState)
-        {
-            // Only handle velocity updates provided for other players.
-            // This is because otherwise the prediction system has a nasty habit of getting "jerky".
-            if (_playerManager.LocalPlayer?.ControlledEntity == Owner)
-                return;
-            base.HandleComponentState(curState, nextState);
         }
 
         private void KeyBindStateChanged(BoundKeyEventArgs ev)

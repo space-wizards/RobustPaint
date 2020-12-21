@@ -25,13 +25,21 @@ namespace Content.Server
         [Dependency] private IPlayerManager _playerManager = default!;
         [Dependency] private IConfigurationManager _cfg = default!;
 
-        public MapId IngressMap { get; private set; }
-        public IMapGrid IngressGrid { get; private set; }
+        public MapId IngressMap { get; private set; } = default!;
+        public IMapGrid IngressGrid { get; private set; } = default!;
+        public Box2i MapExtent { get; private set; } = default!;
+        public Box2 MapExtentF { get; private set; } = default!;
 
         public void Initialize()
         {
             // Create ingress point map.
             IngressMap = _mapManager.CreateMap();
+            var extent = _cfg.GetCVar(GameConfigVars.MapExtent);
+            var extentFrontHalf = extent / 2;
+            var extentBackHalf = extent - extentFrontHalf;
+            // this is a bit weird but it works
+            MapExtent = new Box2i(-extentBackHalf, -extentBackHalf, extentFrontHalf - 1, extentFrontHalf - 1);
+            MapExtentF = new Box2(-extentBackHalf, -extentBackHalf, extentFrontHalf, extentFrontHalf);
 
             var world = IoCManager.Resolve<IMapLoader>().LoadBlueprint(IngressMap, _cfg.GetCVar(GameConfigVars.MapFile));
             if (world == null)
