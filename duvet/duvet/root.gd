@@ -3,6 +3,14 @@ extends Reference
 
 # dictionary mapping pixel position strings to sorted arrays of changes
 var pixels: Dictionary
+var _relative_month_cache_a: int = -1
+var _relative_month_cache_b: int = -1
+
+const _month_days_no_leap = [
+	31, 28, 31, 30,
+	31, 30, 31, 31,
+	30, 31, 30, 31
+]
 
 func _init():
 	pixels = {}
@@ -96,26 +104,29 @@ func _parse_date(c: String) -> float:
 	var seconds = float(ts4[2])
 	# for january 1970, this must == 0
 	var totalAmountOfMonths = ((year - 1970) * 12) + (month - 1)
-	# calculate month base time
-	var monthDaysNoLeap = [
-		31, 28, 31, 30,
-		31, 30, 31, 31,
-		30, 31, 30, 31
-	]
-	var currentYear = 1970
-	var monthBaseDays = 0
-	for i in range(totalAmountOfMonths):
-		var currentMonth = i % 12
-		monthBaseDays += monthDaysNoLeap[currentMonth]
-		if (currentMonth == 1) and _is_leap_year(currentYear):
-			monthBaseDays += 1
-		if currentMonth == 11:
-			currentYear += 1
+	var monthBaseDays = _get_days_for_relative_month(totalAmountOfMonths)
 	# finish this
 	var totalDays = monthBaseDays + (day - 1)
 	var totalHours = (totalDays * 24) + hour
 	var totalMinutes = (totalHours * 60) + minute
 	return (totalMinutes * 60) + seconds
+
+func _get_days_for_relative_month(relativeMonth: int) -> int:
+	if _relative_month_cache_a == relativeMonth:
+		return _relative_month_cache_b
+	# calculate month base time
+	var currentYear = 1970
+	var monthBaseDays = 0
+	for i in range(relativeMonth):
+		var currentMonth = i % 12
+		monthBaseDays += _month_days_no_leap[currentMonth]
+		if (currentMonth == 1) and _is_leap_year(currentYear):
+			monthBaseDays += 1
+		if currentMonth == 11:
+			currentYear += 1
+	_relative_month_cache_a = relativeMonth
+	_relative_month_cache_b = monthBaseDays
+	return monthBaseDays
 
 func _is_leap_year(currentYear: int) -> bool:
 	if (currentYear % 4) != 0:
@@ -123,7 +134,7 @@ func _is_leap_year(currentYear: int) -> bool:
 	# 400 accept takes precedence over 100 reject
 	if (currentYear % 400) == 0:
 		return true
-	if (currentYear % 100) != 0:
+	if (currentYear % 100) == 0:
 		return false
 	# neither
 	return true
