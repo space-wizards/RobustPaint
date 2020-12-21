@@ -18,9 +18,3 @@ func initialize():
 		while not file.eof_reached():
 			var ln = file.get_line()
 			database.try_add_change(ln)
-
-func format_datetime(time):
-	var dt = OS.get_datetime_from_unix_time(time)
-	var dates = str(dt["year"]) + "-" + (str(dt["month"]).pad_zeros(2)) + "-" + (str(dt["day"]).pad_zeros(2))
-	var times = (str(dt["hour"]).pad_zeros(2)) + ":" + (str(dt["minute"]).pad_zeros(2)) + ":" + (str(dt["second"]).pad_zeros(2))
-	return dates + " " + times

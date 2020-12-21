@@ -16,32 +16,51 @@ __meta__ = {
 
 [node name="VBoxContainer" type="PanelContainer" parent="."]
 margin_right = 1024.0
-margin_bottom = 34.0
+margin_bottom = 38.0
 
-[node name="Timecircuit" parent="VBoxContainer" instance=ExtResource( 1 )]
-anchor_right = 0.0
-anchor_bottom = 0.0
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
 margin_left = 7.0
 margin_top = 7.0
 margin_right = 1017.0
-margin_bottom = 27.0
+margin_bottom = 31.0
+
+[node name="Timecircuit" parent="VBoxContainer/HBoxContainer" instance=ExtResource( 1 )]
+anchor_right = 0.0
+anchor_bottom = 0.0
+margin_right = 408.0
+margin_bottom = 24.0
+
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer"]
+margin_left = 412.0
+margin_top = 5.0
+margin_right = 709.0
+margin_bottom = 19.0
+size_flags_horizontal = 3
+text = "Incident ID:"
+align = 2
+
+[node name="Coordinates" type="LineEdit" parent="VBoxContainer/HBoxContainer"]
+margin_left = 713.0
+margin_right = 1010.0
+margin_bottom = 24.0
+size_flags_horizontal = 3
 
 [node name="HBoxContainer" type="HSplitContainer" parent="."]
-margin_top = 38.0
+margin_top = 42.0
 margin_right = 1024.0
 margin_bottom = 600.0
 size_flags_vertical = 3
 
 [node name="PanelContainer" type="PanelContainer" parent="HBoxContainer"]
-margin_right = 713.0
-margin_bottom = 562.0
+margin_right = 726.0
+margin_bottom = 558.0
 size_flags_horizontal = 3
 
 [node name="TextureRect" type="TextureRect" parent="HBoxContainer/PanelContainer"]
 margin_left = 7.0
 margin_top = 7.0
-margin_right = 706.0
-margin_bottom = 555.0
+margin_right = 719.0
+margin_bottom = 551.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 texture = ExtResource( 3 )
@@ -51,35 +70,35 @@ stretch_mode = 6
 [node name="CenterContainer" type="CenterContainer" parent="HBoxContainer/PanelContainer"]
 margin_left = 7.0
 margin_top = 7.0
-margin_right = 706.0
-margin_bottom = 555.0
+margin_right = 719.0
+margin_bottom = 551.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="indicatorHope" type="TextureRect" parent="HBoxContainer/PanelContainer/CenterContainer"]
-margin_left = 333.0
-margin_top = 258.0
-margin_right = 365.0
-margin_bottom = 290.0
+margin_left = 340.0
+margin_top = 256.0
+margin_right = 372.0
+margin_bottom = 288.0
 texture = ExtResource( 4 )
 stretch_mode = 4
 
 [node name="PanelContainer2" type="VBoxContainer" parent="HBoxContainer"]
-margin_left = 725.0
+margin_left = 738.0
 margin_right = 1024.0
-margin_bottom = 562.0
+margin_bottom = 558.0
 
 [node name="PanelContainer" type="PanelContainer" parent="HBoxContainer/PanelContainer2"]
-margin_right = 299.0
-margin_bottom = 405.0
+margin_right = 286.0
+margin_bottom = 419.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="TabContainer" type="TabContainer" parent="HBoxContainer/PanelContainer2/PanelContainer"]
 margin_left = 7.0
 margin_top = 7.0
-margin_right = 292.0
-margin_bottom = 398.0
+margin_right = 279.0
+margin_bottom = 412.0
 
 [node name="Pixel History" type="ItemList" parent="HBoxContainer/PanelContainer2/PanelContainer/TabContainer"]
 anchor_right = 1.0
@@ -132,57 +151,57 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="PanelContainer2" type="PanelContainer" parent="HBoxContainer/PanelContainer2"]
-margin_top = 409.0
-margin_right = 299.0
-margin_bottom = 562.0
+margin_top = 423.0
+margin_right = 286.0
+margin_bottom = 558.0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/PanelContainer2/PanelContainer2"]
 margin_left = 7.0
 margin_top = 7.0
-margin_right = 292.0
-margin_bottom = 146.0
+margin_right = 279.0
+margin_bottom = 128.0
 
 [node name="PanelContainer" type="PanelContainer" parent="HBoxContainer/PanelContainer2/PanelContainer2/VBoxContainer"]
-margin_right = 285.0
+margin_right = 272.0
 margin_bottom = 93.0
 
 [node name="GridContainer" type="GridContainer" parent="HBoxContainer/PanelContainer2/PanelContainer2/VBoxContainer/PanelContainer"]
 margin_left = 7.0
 margin_top = 7.0
-margin_right = 278.0
+margin_right = 265.0
 margin_bottom = 86.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 columns = 3
 
 [node name="Control" type="Control" parent="HBoxContainer/PanelContainer2/PanelContainer2/VBoxContainer/PanelContainer/GridContainer"]
-margin_right = 87.0
+margin_right = 83.0
 margin_bottom = 20.0
 size_flags_horizontal = 3
 
 [node name="Control2" type="Button" parent="HBoxContainer/PanelContainer2/PanelContainer2/VBoxContainer/PanelContainer/GridContainer"]
-margin_left = 91.0
-margin_right = 178.0
+margin_left = 87.0
+margin_right = 170.0
 margin_bottom = 20.0
 size_flags_horizontal = 3
 text = "^"
 
 [node name="Control3" type="Control" parent="HBoxContainer/PanelContainer2/PanelContainer2/VBoxContainer/PanelContainer/GridContainer"]
-margin_left = 182.0
-margin_right = 269.0
+margin_left = 174.0
+margin_right = 257.0
 margin_bottom = 20.0
 size_flags_horizontal = 3
 
 [node name="Control4" type="Button" parent="HBoxContainer/PanelContainer2/PanelContainer2/VBoxContainer/PanelContainer/GridContainer"]
 margin_top = 24.0
-margin_right = 87.0
+margin_right = 83.0
 margin_bottom = 55.0
 text = "<"
 
 [node name="Control5" type="Label" parent="HBoxContainer/PanelContainer2/PanelContainer2/VBoxContainer/PanelContainer/GridContainer"]
-margin_left = 91.0
+margin_left = 87.0
 margin_top = 24.0
-margin_right = 178.0
+margin_right = 170.0
 margin_bottom = 55.0
 focus_mode = 2
 mouse_filter = 1
@@ -193,59 +212,51 @@ script = ExtResource( 5 )
 base_path = NodePath("../../../../../../..")
 
 [node name="Control6" type="Button" parent="HBoxContainer/PanelContainer2/PanelContainer2/VBoxContainer/PanelContainer/GridContainer"]
-margin_left = 182.0
+margin_left = 174.0
 margin_top = 24.0
-margin_right = 269.0
+margin_right = 257.0
 margin_bottom = 55.0
 text = ">"
 
 [node name="Control7" type="Control" parent="HBoxContainer/PanelContainer2/PanelContainer2/VBoxContainer/PanelContainer/GridContainer"]
 margin_top = 59.0
-margin_right = 87.0
+margin_right = 83.0
 margin_bottom = 79.0
 
 [node name="Control8" type="Button" parent="HBoxContainer/PanelContainer2/PanelContainer2/VBoxContainer/PanelContainer/GridContainer"]
-margin_left = 91.0
+margin_left = 87.0
 margin_top = 59.0
-margin_right = 178.0
+margin_right = 170.0
 margin_bottom = 79.0
 text = "v"
 
 [node name="Button" type="Button" parent="HBoxContainer/PanelContainer2/PanelContainer2/VBoxContainer/PanelContainer/GridContainer"]
-margin_left = 182.0
+margin_left = 174.0
 margin_top = 59.0
-margin_right = 269.0
+margin_right = 257.0
 margin_bottom = 79.0
 text = "EXPORT"
 
-[node name="GridContainer" type="GridContainer" parent="HBoxContainer/PanelContainer2/PanelContainer2/VBoxContainer"]
+[node name="GridContainer" type="VBoxContainer" parent="HBoxContainer/PanelContainer2/PanelContainer2/VBoxContainer"]
 margin_top = 97.0
-margin_right = 285.0
-margin_bottom = 139.0
-columns = 2
+margin_right = 272.0
+margin_bottom = 121.0
 
-[node name="clabel" type="Label" parent="HBoxContainer/PanelContainer2/PanelContainer2/VBoxContainer/GridContainer"]
-margin_right = 185.0
-margin_bottom = 14.0
-text = "Coordinates Of Selected Tile:"
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/PanelContainer2/PanelContainer2/VBoxContainer/GridContainer"]
+margin_right = 272.0
+margin_bottom = 24.0
 
-[node name="Coordinates" type="Label" parent="HBoxContainer/PanelContainer2/PanelContainer2/VBoxContainer/GridContainer"]
-margin_left = 189.0
-margin_right = 285.0
-margin_bottom = 14.0
-
-[node name="IBSACb" type="CheckBox" parent="HBoxContainer/PanelContainer2/PanelContainer2/VBoxContainer/GridContainer"]
-margin_top = 18.0
-margin_right = 185.0
-margin_bottom = 42.0
+[node name="IBSACb" type="CheckBox" parent="HBoxContainer/PanelContainer2/PanelContainer2/VBoxContainer/GridContainer/HBoxContainer"]
+margin_right = 172.0
+margin_bottom = 24.0
 text = "Same Author In Yellow"
 
-[node name="TCCb" type="CheckBox" parent="HBoxContainer/PanelContainer2/PanelContainer2/VBoxContainer/GridContainer"]
-margin_left = 189.0
-margin_top = 18.0
-margin_right = 285.0
-margin_bottom = 42.0
+[node name="TCCb" type="CheckBox" parent="HBoxContainer/PanelContainer2/PanelContainer2/VBoxContainer/GridContainer/HBoxContainer"]
+margin_left = 176.0
+margin_right = 272.0
+margin_bottom = 24.0
 text = "Truecolour"
+[connection signal="text_entered" from="VBoxContainer/HBoxContainer/Coordinates" to="." method="_on_Coordinates_text_entered"]
 [connection signal="pressed" from="HBoxContainer/PanelContainer2/PanelContainer/TabContainer/User History/Button" to="." method="_setup_user_history"]
 [connection signal="pressed" from="HBoxContainer/PanelContainer2/PanelContainer2/VBoxContainer/PanelContainer/GridContainer/Control2" to="." method="_fine_up"]
 [connection signal="pressed" from="HBoxContainer/PanelContainer2/PanelContainer2/VBoxContainer/PanelContainer/GridContainer/Control4" to="." method="_fine_left"]

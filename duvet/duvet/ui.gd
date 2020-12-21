@@ -1,7 +1,7 @@
 extends VBoxContainer
 
 onready var main_display = find_node("TextureRect")
-onready var coordinates_label = find_node("Coordinates")
+onready var coordinates_line: LineEdit = find_node("Coordinates")
 onready var timecircuit: DuvetTimeCircuit = find_node("Timecircuit")
 onready var pixel_history: ItemList = find_node("Pixel History")
 onready var user_history: ItemList = find_node("UserHistoryList")
@@ -15,6 +15,8 @@ const VIEW_CEN = 48
 
 var camX = 0
 var camY = 0
+
+var selection_disable = false
 
 var dsky_image: Image
 
@@ -65,13 +67,13 @@ func _update_dsky():
 	dsky_image.unlock()
 	main_display_image_texture.create_from_image(dsky_image, 0)
 	# coords
-	coordinates_label.text = DuvetManager.database.format_pos(camX, camY)
+	coordinates_line.text = str(camX) + "_" + str(camY) + "_" + DateManager.str_date(ceil(time))
 	# responsible (1)
 	var pos = db.format_pos(camX, camY)
 	if db.pixels.has(pos):
-		_refresh_list(pixel_history, db.pixels[pos], time)
+		_refresh_list(pixel_history, db.pixels[pos], time, false)
 	else:
-		_refresh_list(pixel_history, [], time)
+		_refresh_list(pixel_history, [], time, false)
 
 func _setup_user_history():
 	var db: DuvetRoot = DuvetManager.database
@@ -79,30 +81,37 @@ func _setup_user_history():
 	var ch_ref: DuvetChange = db.state_at_time(camX, camY, time)
 	if ch_ref != null:
 		user_history_label.text = ch_ref.who
-		_refresh_list(user_history, db.users[ch_ref.who], time)
+		_refresh_list(user_history, db.users[ch_ref.who], time, true)
 	else:
 		user_history_label.text = "Nobody"
-		_refresh_list(user_history, [], time)
+		_refresh_list(user_history, [], time, true)
 
-func _refresh_list(list: ItemList, arr: Array, time: float):
+func _refresh_list(list: ItemList, arr: Array, time: float, where: bool):
+	selection_disable = true
 	list.clear()
 	var validIdx = -1
 	for itmIdx in range(len(arr)):
 		var itm: DuvetChange = arr[itmIdx]
-		list.add_item(DuvetManager.format_datetime(itm.when) + ": " + itm.who + " -> " + str(itm.value))
+		if where:
+			list.add_item(DateManager.str_date(floor(itm.when)) + " @ " + itm.pos + " -> " + str(itm.value))
+		else:
+			list.add_item(DateManager.str_date(floor(itm.when)) + " : " + itm.who + " -> " + str(itm.value))
 		list.set_item_metadata(itmIdx, itm)
 		if time >= itm.when:
 			validIdx = itmIdx
 	if validIdx != -1:
 		list.select(validIdx)
+	selection_disable = false
 
 func _listtravel(idx: int, list: ItemList):
+	if selection_disable:
+		return
 	if idx == -1:
 		return
 	var md = list.get_item_metadata(idx)
 	if md == null:
 		return
-	timecircuit.time = md.when + 0.01
+	timecircuit.time = md.when
 	camX = md.get_x()
 	camY = md.get_y()
 	timecircuit.emit_signal("time_changed")
@@ -127,3 +136,12 @@ func _on_export():
 	dsky_image.save_png("./export.png")
 	# OS.alert("See: export.png")
 	OS.shell_open("./export.png")
+
+func _on_Coordinates_text_entered(new_text):
+	var parts = coordinates_line.text.split("_")
+	if len(parts) != 3:
+		return
+	camX = int(parts[0])
+	camY = int(parts[1])
+	timecircuit.time = DateManager.parse_date(parts[2])
+	timecircuit.emit_signal("time_changed")

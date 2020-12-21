@@ -13,7 +13,8 @@ func _ready():
 	_update_text()
 
 func _update_text():
-	$Label.text = DuvetManager.format_datetime(time)
+	# print("time circuit = " + str(time))
+	$Label.text = DateManager.str_date(time)
 
 func mod(v):
 	time += v

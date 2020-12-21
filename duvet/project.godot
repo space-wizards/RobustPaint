@@ -39,6 +39,7 @@ config/icon="res://icon.png"
 [autoload]
 
 DuvetManager="*res://duvet/duvet_manager.gd"
+DateManager="*res://duvet/date_manager.gd"
 
 [rendering]
 
