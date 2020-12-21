@@ -5,7 +5,7 @@
 [node name="Control" type="HBoxContainer"]
 anchor_right = 1.0
 anchor_bottom = 1.0
-margin_right = -335.0
+margin_right = -583.0
 margin_bottom = -572.0
 script = ExtResource( 1 )
 __meta__ = {
@@ -38,33 +38,34 @@ text = "S"
 [node name="Label" type="Label" parent="."]
 margin_left = 123.0
 margin_top = 7.0
-margin_right = 566.0
+margin_right = 318.0
 margin_bottom = 21.0
+rect_min_size = Vector2( 192, 0 )
 size_flags_horizontal = 3
 text = "present day present time"
 align = 1
 
 [node name="Button3" type="Button" parent="."]
-margin_left = 570.0
-margin_right = 589.0
+margin_left = 322.0
+margin_right = 341.0
 margin_bottom = 28.0
 text = "S"
 
 [node name="Button4" type="Button" parent="."]
-margin_left = 593.0
-margin_right = 617.0
+margin_left = 345.0
+margin_right = 369.0
 margin_bottom = 28.0
 text = "M"
 
 [node name="Button8" type="Button" parent="."]
-margin_left = 621.0
-margin_right = 643.0
+margin_left = 373.0
+margin_right = 395.0
 margin_bottom = 28.0
 text = "H"
 
 [node name="Button2" type="Button" parent="."]
-margin_left = 647.0
-margin_right = 689.0
+margin_left = 399.0
+margin_right = 441.0
 margin_bottom = 28.0
 text = "> 1D"
 [connection signal="pressed" from="Button" to="." method="_m1d"]

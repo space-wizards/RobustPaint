@@ -23,27 +23,37 @@ margin_left = 7.0
 margin_top = 7.0
 margin_right = 1017.0
 margin_bottom = 31.0
+grow_horizontal = 2
 
 [node name="Timecircuit" parent="VBoxContainer/HBoxContainer" instance=ExtResource( 1 )]
 anchor_right = 0.0
 anchor_bottom = 0.0
-margin_right = 408.0
+margin_right = 438.0
 margin_bottom = 24.0
 
-[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer"]
-margin_left = 412.0
+[node name="Control" type="Label" parent="VBoxContainer/HBoxContainer"]
+margin_left = 442.0
 margin_top = 5.0
-margin_right = 709.0
+margin_right = 670.0
 margin_bottom = 19.0
 size_flags_horizontal = 3
+custom_colors/font_color = Color( 0.34902, 0.34902, 0.34902, 1 )
+text = "Duvet"
+align = 1
+
+[node name="Label" type="Label" parent="VBoxContainer/HBoxContainer"]
+margin_left = 674.0
+margin_top = 5.0
+margin_right = 750.0
+margin_bottom = 19.0
 text = "Incident ID:"
 align = 2
 
 [node name="Coordinates" type="LineEdit" parent="VBoxContainer/HBoxContainer"]
-margin_left = 713.0
+margin_left = 754.0
 margin_right = 1010.0
 margin_bottom = 24.0
-size_flags_horizontal = 3
+rect_min_size = Vector2( 256, 0 )
 
 [node name="HBoxContainer" type="HSplitContainer" parent="."]
 margin_top = 42.0
@@ -116,8 +126,8 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 margin_left = 4.0
 margin_top = 32.0
-margin_right = -137.0
-margin_bottom = -301.0
+margin_right = -4.0
+margin_bottom = -4.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 

@@ -56,7 +56,8 @@ func try_add_change(c: String) -> void:
 	var dateSplit = c.find(" ")
 	if dateSplit == -1:
 		return
-	var date = DateManager.parse_date(c.substr(0, dateSplit))
+	var dateOriginal = c.substr(0, dateSplit)
+	var date = DateManager.parse_date(dateOriginal)
 	if date == -1.0:
 		return
 	var content: String = c.substr(dateSplit + 1)
@@ -74,5 +75,6 @@ func try_add_change(c: String) -> void:
 	dc.pos = contentC2[0]
 	dc.who = contentC1[0]
 	dc.when = date
+	dc.when_original = dateOriginal
 	dc.value = int(contentC2[1])
 	add_change(dc)

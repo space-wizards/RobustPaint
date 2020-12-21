@@ -133,9 +133,56 @@ func _fine_up():
 	_update_dsky()
 
 func _on_export():
-	dsky_image.save_png("./export.png")
-	# OS.alert("See: export.png")
-	OS.shell_open("./export.png")
+	var db: DuvetRoot = DuvetManager.database
+	var ch_ref: DuvetChange = db.state_at_time(camX, camY, timecircuit.time)
+	var basename = "unknown.." + coordinates_line.text
+	if ch_ref != null:
+		basename = ch_ref.who + "." + coordinates_line.text
+	var basefilename = basename.replace("@", ".").replace(":", ".").replace("-", ".").replace(":", ".")
+	ibsca.pressed = false
+	tccb.pressed = true
+	_update_dsky()
+	var imgV = "data:image/png;base64," + Marshalls.raw_to_base64(dsky_image.save_png_to_buffer())
+	ibsca.pressed = true
+	tccb.pressed = false
+	_update_dsky()
+	var imgO = "data:image/png;base64," + Marshalls.raw_to_base64(dsky_image.save_png_to_buffer())
+	var fn = File.new()
+	fn.open("./out/" + basefilename + ".html", File.WRITE)
+	fn.store_line("<html><head>")
+	fn.store_line(" <title>" + basename + "</title>")
+	fn.store_line(" <style>")
+	fn.store_line("  html { font-family: monospace; color: white; background: black; }")
+	fn.store_line("  .evidence { width: " + str(VIEW_SIZE * 4) + "px; height: " + str(VIEW_SIZE * 4) + "px; image-rendering: crisp-edges; }")
+	fn.store_line(" </style>")
+	fn.store_line("</head><body>")
+	fn.store_line(" <h1>DUVET INCIDENT REPORT</h1>")
+	fn.store_line(" <h2>Images</h2>")
+	fn.store_line(" <table border=\"1\">")
+	fn.store_line("  <tr>")
+	fn.store_line("   <td>Truecolour</td>")
+	fn.store_line("   <td>Ownership</td>")
+	fn.store_line("  </tr>")
+	fn.store_line("  <tr>")
+	fn.store_line("   <td><img class=\"evidence\" src=\"" + imgV + "\"/></td>")
+	fn.store_line("   <td><img class=\"evidence\" src=\"" + imgO + "\"/></td>")
+	fn.store_line("  </tr>")
+	fn.store_line(" </table>")
+	fn.store_line(" <h2>Data</h2>")
+	fn.store_line(" <table border=\"1\">")
+	fn.store_line("  <tr><td>Incident ID</td><td>" + coordinates_line.text + "</td></tr>")
+	fn.store_line("  <tr><td>Position</td><td>" + db.format_pos(camX, camY) + "</td></tr>")
+	if ch_ref != null:
+		fn.store_line("  <tr><td>ch_ref.who</td><td>" + ch_ref.who + "</td></tr>")
+		fn.store_line("  <tr><td>ch_ref.when_original</td><td>" + ch_ref.when_original + "</td></tr>")
+	fn.store_line(" </table>")
+	fn.store_line(" <h2>Notes</h2>")
+	fn.store_line(" <p>")
+	fn.store_line("No note supplied.")
+	fn.store_line(" </p>")
+	fn.store_line("</body></html>")
+	fn.close()
+	OS.shell_open("./out/" + basefilename + ".html")
 
 func _on_Coordinates_text_entered(new_text):
 	var parts = coordinates_line.text.split("_")
