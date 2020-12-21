@@ -3,6 +3,7 @@ extends Reference
 
 # dictionary mapping pixel position strings to sorted arrays of changes
 var pixels: Dictionary
+var users: Dictionary
 var _relative_month_cache_a: int = -1
 var _relative_month_cache_b: int = -1
 
@@ -14,6 +15,7 @@ const _month_days_no_leap = [
 
 func _init():
 	pixels = {}
+	users = {}
 
 # -1 is unknown
 func state_at_time(x: int, y: int, time: float) -> DuvetChange:
@@ -35,15 +37,21 @@ func add_change(c: DuvetChange) -> void:
 	if not pixels.has(c.pos):
 		pixels[c.pos] = [c]
 	else:
-		var tmp: Array = pixels[c.pos]
-		var chkIdx = len(tmp) - 1
-		while chkIdx >= 0:
-			if tmp[chkIdx].when < c.when:
-				# Here + 1
-				tmp.insert(chkIdx + 1, c)
-				return
-			chkIdx -= 1
-		tmp.insert(0, c)
+		_add_change_order(pixels[c.pos], c)
+	if not users.has(c.who):
+		users[c.who] = [c]
+	else:
+		_add_change_order(users[c.who], c)
+
+func _add_change_order(tmp: Array, c: DuvetChange) -> void:
+	var chkIdx = len(tmp) - 1
+	while chkIdx >= 0:
+		if tmp[chkIdx].when < c.when:
+			# Here + 1
+			tmp.insert(chkIdx + 1, c)
+			return
+		chkIdx -= 1
+	tmp.insert(0, c)
 
 func try_add_change(c: String) -> void:
 	# first line of sanity

@@ -3,7 +3,9 @@ extends VBoxContainer
 onready var main_display = find_node("TextureRect")
 onready var coordinates_label = find_node("Coordinates")
 onready var timecircuit: DuvetTimeCircuit = find_node("Timecircuit")
-onready var item_list: ItemList = find_node("ItemList")
+onready var pixel_history: ItemList = find_node("Pixel History")
+onready var user_history: ItemList = find_node("UserHistoryList")
+onready var user_history_label: Label = find_node("UserHistoryLabel")
 onready var ibsca: CheckBox = find_node("IBSACb")
 var main_display_image_texture: ImageTexture
 
@@ -23,7 +25,10 @@ func _ready():
 	main_display.texture = main_display_image_texture
 	timecircuit.connect("time_changed", self, "_update_dsky")
 	ibsca.connect("pressed", self, "_update_dsky")
-	item_list.connect("item_selected", self, "_listtravel")
+	pixel_history.connect("item_selected", self, "_listtravel", [pixel_history])
+	user_history.connect("item_selected", self, "_listtravel", [user_history])
+	pixel_history.connect("item_activated", self, "_listtravel", [pixel_history])
+	user_history.connect("item_activated", self, "_listtravel", [user_history])
 	_update_dsky()
 
 func _update_dsky():
@@ -50,28 +55,45 @@ func _update_dsky():
 	main_display_image_texture.create_from_image(dsky_image, 0)
 	# coords
 	coordinates_label.text = DuvetManager.database.format_pos(camX, camY)
-	# responsible
-	item_list.clear()
+	# responsible (1)
 	var pos = db.format_pos(camX, camY)
 	if db.pixels.has(pos):
-		var arr: Array = db.pixels[pos]
-		var validIdx = -1
-		for itmIdx in range(len(arr)):
-			var itm: DuvetChange = arr[itmIdx]
-			item_list.add_item(DuvetManager.format_datetime(itm.when) + ": " + itm.who + " -> " + str(itm.value))
-			item_list.set_item_metadata(itmIdx, itm.when)
-			if time >= itm.when:
-				validIdx = itmIdx
-		if validIdx != -1:
-			item_list.select(validIdx)
+		_refresh_list(pixel_history, db.pixels[pos], time)
+	else:
+		_refresh_list(pixel_history, [], time)
 
-func _listtravel(idx: int):
+func _setup_user_history():
+	var db: DuvetRoot = DuvetManager.database
+	var time = timecircuit.time
+	var ch_ref: DuvetChange = db.state_at_time(camX, camY, time)
+	if ch_ref != null:
+		user_history_label.text = ch_ref.who
+		_refresh_list(user_history, db.users[ch_ref.who], time)
+	else:
+		user_history_label.text = "Nobody"
+		_refresh_list(user_history, [], time)
+
+func _refresh_list(list: ItemList, arr: Array, time: float):
+	list.clear()
+	var validIdx = -1
+	for itmIdx in range(len(arr)):
+		var itm: DuvetChange = arr[itmIdx]
+		list.add_item(DuvetManager.format_datetime(itm.when) + ": " + itm.who + " -> " + str(itm.value))
+		list.set_item_metadata(itmIdx, itm)
+		if time >= itm.when:
+			validIdx = itmIdx
+	if validIdx != -1:
+		list.select(validIdx)
+
+func _listtravel(idx: int, list: ItemList):
 	if idx == -1:
 		return
-	var md = item_list.get_item_metadata(idx)
+	var md = list.get_item_metadata(idx)
 	if md == null:
 		return
-	timecircuit.time = md + 0.01
+	timecircuit.time = md.when + 0.01
+	camX = md.get_x()
+	camY = md.get_y()
 	timecircuit.emit_signal("time_changed")
 
 func _fine_down():

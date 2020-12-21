@@ -75,11 +75,61 @@ margin_bottom = 387.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="ItemList" type="ItemList" parent="HBoxContainer/PanelContainer2/PanelContainer"]
+[node name="TabContainer" type="TabContainer" parent="HBoxContainer/PanelContainer2/PanelContainer"]
 margin_left = 7.0
 margin_top = 7.0
 margin_right = 188.0
 margin_bottom = 380.0
+
+[node name="Pixel History" type="ItemList" parent="HBoxContainer/PanelContainer2/PanelContainer/TabContainer"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 4.0
+margin_top = 32.0
+margin_right = -4.0
+margin_bottom = -4.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="User History" type="VBoxContainer" parent="HBoxContainer/PanelContainer2/PanelContainer/TabContainer"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 4.0
+margin_top = 32.0
+margin_right = -137.0
+margin_bottom = -301.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/PanelContainer2/PanelContainer/TabContainer/User History"]
+margin_right = 113.0
+margin_bottom = 14.0
+
+[node name="Label" type="Label" parent="HBoxContainer/PanelContainer2/PanelContainer/TabContainer/User History/HBoxContainer"]
+margin_right = 60.0
+margin_bottom = 14.0
+text = "Tracking: "
+
+[node name="UserHistoryLabel" type="Label" parent="HBoxContainer/PanelContainer2/PanelContainer/TabContainer/User History/HBoxContainer"]
+margin_left = 64.0
+margin_right = 113.0
+margin_bottom = 14.0
+text = "Nobody"
+
+[node name="Button" type="Button" parent="HBoxContainer/PanelContainer2/PanelContainer/TabContainer/User History"]
+margin_top = 18.0
+margin_right = 113.0
+margin_bottom = 38.0
+text = "Update"
+
+[node name="UserHistoryList" type="ItemList" parent="HBoxContainer/PanelContainer2/PanelContainer/TabContainer/User History"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_right = -8.0
+margin_bottom = -36.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
 
 [node name="PanelContainer2" type="PanelContainer" parent="HBoxContainer/PanelContainer2"]
 margin_top = 391.0
@@ -140,6 +190,7 @@ text = "CLICK
 HERE"
 align = 1
 script = ExtResource( 5 )
+base_path = NodePath("../../../../../../..")
 
 [node name="Control6" type="Button" parent="HBoxContainer/PanelContainer2/PanelContainer2/VBoxContainer/PanelContainer/GridContainer"]
 margin_left = 114.0
@@ -176,6 +227,7 @@ margin_top = 133.0
 margin_right = 181.0
 margin_bottom = 157.0
 text = "Same Author In Yellow"
+[connection signal="pressed" from="HBoxContainer/PanelContainer2/PanelContainer/TabContainer/User History/Button" to="." method="_setup_user_history"]
 [connection signal="pressed" from="HBoxContainer/PanelContainer2/PanelContainer2/VBoxContainer/PanelContainer/GridContainer/Control2" to="." method="_fine_up"]
 [connection signal="pressed" from="HBoxContainer/PanelContainer2/PanelContainer2/VBoxContainer/PanelContainer/GridContainer/Control4" to="." method="_fine_left"]
 [connection signal="pressed" from="HBoxContainer/PanelContainer2/PanelContainer2/VBoxContainer/PanelContainer/GridContainer/Control6" to="." method="_fine_right"]

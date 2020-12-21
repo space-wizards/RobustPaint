@@ -1,6 +1,7 @@
 extends Label
 
-onready var base = $"../../../../../../.."
+export var base_path: NodePath
+onready var base = get_node(base_path)
 
 var up: bool = false
 var down: bool = false
