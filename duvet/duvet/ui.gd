@@ -116,3 +116,8 @@ func _fine_left():
 func _fine_up():
 	camY += 1
 	_update_dsky()
+
+func _on_export():
+	dsky_image.save_png("./export.png")
+	# OS.alert("See: export.png")
+	OS.shell_open("./export.png")
