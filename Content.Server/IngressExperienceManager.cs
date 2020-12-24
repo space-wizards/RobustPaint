@@ -1,5 +1,6 @@
 using System;
 using System.Threading;
+using System.Collections.Generic;
 using Content.Shared;
 using Content.Shared.Network;
 using Robust.Server.Interfaces.Player;
@@ -34,6 +35,8 @@ namespace Content.Server
         public IMapGrid IngressGrid { get; private set; } = default!;
         public Box2i MapExtent { get; private set; } = default!;
         public Box2 MapExtentF { get; private set; } = default!;
+
+        public Dictionary<string, ModerationDefinition> TempBans = new Dictionary<string, ModerationDefinition>();
 
         public void Initialize()
         {
@@ -88,6 +91,19 @@ namespace Content.Server
             StartAutosaveTimer();
         }
 
+        private ModerationDefinition GetModerationDefinition(IPlayerSession session)
+        {
+            var uuid = session.UserId.ToString();
+            if (TempBans.ContainsKey(uuid))
+                return TempBans[uuid];
+            if (_prototypeManager.TryIndex<ModerationDefinition>(uuid, out var moderation))
+                return moderation;
+            if (session.Name != null)
+                if (_prototypeManager.TryIndex<ModerationDefinition>("NAME=" + session.Name, out var moderation2))
+                    return moderation2;
+            return null;
+        }
+
         private void PlayerStatusChanged(object blah, SessionStatusEventArgs args)
         {
             if (args.NewStatus == SessionStatus.Connected)
@@ -95,18 +111,11 @@ namespace Content.Server
                 // Determine what to do with them
                 var moderationEntity = "Player";
                 var moderationText = "";
-                if (_prototypeManager.TryIndex<ModerationDefinition>(args.Session.UserId.ToString(), out var moderation))
+                var moderation = GetModerationDefinition(args.Session);
+                if (moderation != null)
                 {
                     moderationEntity = moderation.Entity;
                     moderationText = moderation.Text;
-                }
-                if (args.Session.Name != null)
-                {
-                    if (_prototypeManager.TryIndex<ModerationDefinition>("NAME=" + args.Session.Name, out var moderation2))
-                    {
-                        moderationEntity = moderation2.Entity;
-                        moderationText = moderation2.Text;
-                    }
                 }
 
                 // Setup an entity for the player...

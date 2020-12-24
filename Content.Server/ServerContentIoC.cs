@@ -8,6 +8,7 @@ namespace Content.Server
         {
             // DEVNOTE: IoCManager registrations for the server go here and only here.
             IoCManager.Register<IngressExperienceManager, IngressExperienceManager>();
+            IoCManager.Register<ConGroupManager, ConGroupManager>();
         }
     }
 }

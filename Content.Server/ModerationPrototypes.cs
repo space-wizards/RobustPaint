@@ -14,9 +14,9 @@ namespace Content.Server
     {
         string IIndexedPrototype.ID => UUID;
 
-        public string UUID { get; private set; }
-        public string Entity { get; private set; }
-        public string Text { get; private set; }
+        public string UUID { get; set; }
+        public string Entity { get; set; }
+        public string Text { get; set; }
 
         public void LoadFrom(YamlMappingNode mapping)
         {
