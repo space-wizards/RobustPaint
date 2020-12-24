@@ -15,7 +15,7 @@
         <uic:HBoxContainer Align="Center" SizeFlagsHorizontal="FillExpand">
             <ui:Control SizeFlagsHorizontal="FillExpand">
                 <uic:PanelContainer>
-                    <uic:Label Text="Left mouse button to draw." Align="Center" SizeFlagsHorizontal="FillExpand" SizeFlagsVertical="FillExpand"/>
+                    <uic:Label Text="Left mouse button to draw." Align="Center" VAlign="Center" SizeFlagsHorizontal="FillExpand" SizeFlagsVertical="FillExpand"/>
                 </uic:PanelContainer>
             </ui:Control>
             <uic:HBoxContainer Align="Center" SizeFlagsHorizontal="FillExpand">
@@ -25,7 +25,7 @@
             </uic:HBoxContainer>
             <ui:Control SizeFlagsHorizontal="FillExpand">
                 <uic:PanelContainer>
-                    <uic:Label Text="Q/E switches tile." Align="Center" SizeFlagsHorizontal="FillExpand" SizeFlagsVertical="FillExpand"/>
+                    <uic:Label Text="Q/E switches tile." Align="Center" VAlign="Center" SizeFlagsHorizontal="FillExpand" SizeFlagsVertical="FillExpand"/>
                 </uic:PanelContainer>
             </ui:Control>
         </uic:HBoxContainer>
