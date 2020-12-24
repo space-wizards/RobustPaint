@@ -1,3 +1,4 @@
+using System;
 using Content.Client;
 using Robust.Client.UserInterface;
 using Robust.Client.Interfaces.UserInterface;
@@ -19,13 +20,14 @@ using Robust.Shared.Maths;
 namespace Content.Client.UserInterface
 {
     [GenerateTypedNameReferences]
-    public partial class MessageDialog : Control
+    public partial class MessageDialog : Control, IModal
     {
+        public event EventHandler OnModalClosed;
         public MessageDialog(string text)
         {
             RobustXamlLoader.Load(this);
             Label.Text = text;
-            OkButton.OnPressed += (a) => { Parent.RemoveChild(this); };
+            OkButton.OnPressed += (a) => { Parent.RemoveChild(this); OnModalClosed.Invoke(this, new EventArgs()); };
         }
     }
 }

@@ -1,6 +1,6 @@
 - type: entity
-  id: Player
-  description: "A player."
+  id: BasePlayer
+  description: "A player with no capabilities."
   components:
   - type: Eye
     # This directly controls draw resolution.
@@ -11,5 +11,22 @@
   - type: Sprite
     texture: player.png
   - type: PlayerKinesis
+
+- type: entity
+  id: BannedPlayer
+  parent: BasePlayer
+
+- type: entity
+  id: Player
+  parent: BasePlayer
+  description: "A player."
+  components:
   - type: PlayerBrush
+
+- type: entity
+  id: AdminPlayer
+  parent: Player
+  description: "An administrator player."
+#  components:
+#  - type: PlayerAdmin
 

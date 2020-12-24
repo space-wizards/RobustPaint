@@ -11,3 +11,5 @@ duvet/.import
 duvet/logs/*
 duvet/out/*
 
+# for 20kdc use only
+Resources/Prototypes/Server/*.yml

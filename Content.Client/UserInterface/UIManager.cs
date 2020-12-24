@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using Content.Client;
 using Content.Shared.Network;
 using Robust.Client.UserInterface;
@@ -26,6 +28,8 @@ namespace Content.Client.UserInterface
         [Dependency] private ITileDefinitionManager _tileDefinitionManager = default!;
 
         private TextureRect _test = default!;
+        private List<IModal> _modals = new List<IModal>();
+        private IModal _currentModal = null;
 
         public void Initialize()
         {
@@ -37,16 +41,35 @@ namespace Content.Client.UserInterface
             _test = hud.TileAccessible;
 
             Update(2);
-            _netManager.RegisterNetMessage<MsgShowMessage>(nameof(MsgShowMessage), message => ViewMessage(message.Text));
+            _netManager.RegisterNetMessage<MsgShowMessage>(nameof(MsgShowMessage), message => PushModal(new MessageDialog(message.Text)));
         }
 
-        public void ViewMessage(string text)
+        public void PushModal(IModal modal)
         {
-            var msg = new MessageDialog(text);
-            LayoutContainer.SetAnchorPreset(msg, LayoutContainer.LayoutPreset.Wide);
-            LayoutContainer.SetGrowHorizontal(msg, LayoutContainer.GrowDirection.Both);
-            LayoutContainer.SetGrowVertical(msg, LayoutContainer.GrowDirection.Both);
-            _userInterfaceManager.StateRoot.AddChild(msg);
+            _modals.Add(modal);
+            if (_currentModal == null)
+                NextModal();
+        }
+
+        private void NextModal()
+        {
+            if (_modals.Count > 0)
+            {
+                var modal = _modals[0];
+                _modals.RemoveAt(0);
+                modal.OnModalClosed += (a, b) => {
+                    if (_currentModal == modal)
+                    {
+                        _currentModal = null;
+                        NextModal();
+                    }
+                };
+                _currentModal = modal;
+                LayoutContainer.SetAnchorPreset((Control) modal, LayoutContainer.LayoutPreset.Wide);
+                LayoutContainer.SetGrowHorizontal((Control) modal, LayoutContainer.GrowDirection.Both);
+                LayoutContainer.SetGrowVertical((Control) modal, LayoutContainer.GrowDirection.Both);
+                _userInterfaceManager.StateRoot.AddChild((Control) modal);
+            }
         }
 
         public void Update(ushort colour)
@@ -54,5 +77,10 @@ namespace Content.Client.UserInterface
             var entry = _tileDefinitionManager[colour];
             _test.Texture = _resourceCache.GetResource<TextureResource>($"/Textures/Constructible/Tiles/{entry.SpriteName}.png");
         }
+    }
+
+    public interface IModal
+    {
+        public event EventHandler OnModalClosed;
     }
 }

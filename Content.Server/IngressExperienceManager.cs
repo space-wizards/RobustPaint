@@ -16,6 +16,7 @@ using Robust.Shared.Log;
 using Robust.Shared.Timing;
 using Robust.Shared.Maths;
 using Robust.Shared.Interfaces.Configuration;
+using Robust.Shared.Prototypes;
 using Timer = Robust.Shared.Timers.Timer;
 
 namespace Content.Server
@@ -27,6 +28,7 @@ namespace Content.Server
         [Dependency] private IEntityManager _entityManager = default!;
         [Dependency] private IPlayerManager _playerManager = default!;
         [Dependency] private IConfigurationManager _cfg = default!;
+        [Dependency] private IPrototypeManager _prototypeManager = default!;
 
         public MapId IngressMap { get; private set; } = default!;
         public IMapGrid IngressGrid { get; private set; } = default!;
@@ -90,15 +92,43 @@ namespace Content.Server
         {
             if (args.NewStatus == SessionStatus.Connected)
             {
+                // Determine what to do with them
+                var moderationEntity = "Player";
+                var moderationText = "";
+                if (_prototypeManager.TryIndex<ModerationDefinition>(args.Session.UserId.ToString(), out var moderation))
+                {
+                    moderationEntity = moderation.Entity;
+                    moderationText = moderation.Text;
+                }
+                if (args.Session.Name != null)
+                {
+                    if (_prototypeManager.TryIndex<ModerationDefinition>("NAME=" + args.Session.Name, out var moderation2))
+                    {
+                        moderationEntity = moderation2.Entity;
+                        moderationText = moderation2.Text;
+                    }
+                }
+
                 // Setup an entity for the player...
-                var playerEntity = _entityManager.SpawnEntity("Player", new EntityCoordinates(_mapManager.GetMapEntityId(IngressMap), 0.5f, 0.5f));
+                var playerEntity = _entityManager.SpawnEntity(moderationEntity, new EntityCoordinates(_mapManager.GetMapEntityId(IngressMap), 0.5f, 0.5f));
                 // This brings them into the InGame runlevel and to the InGame session status.
                 args.Session.AttachToEntity(playerEntity);
                 args.Session.JoinGame();
 
-                var msg = _netManager.CreateNetMessage<MsgShowMessage>();
-                msg.Text = "Test MOTD";
-                _netManager.ServerSendMessage(msg, args.Session.ConnectedClient);
+                foreach (var msgPrototype in _prototypeManager.EnumeratePrototypes<MessageDefinition>())
+                {
+                    var msg = _netManager.CreateNetMessage<MsgShowMessage>();
+                    msg.Text = msgPrototype.Text;
+                    _netManager.ServerSendMessage(msg, args.Session.ConnectedClient);
+                }
+
+                // Show this one last
+                if (moderationText != "")
+                {
+                    var msg = _netManager.CreateNetMessage<MsgShowMessage>();
+                    msg.Text = moderationText;
+                    _netManager.ServerSendMessage(msg, args.Session.ConnectedClient);
+                }
             }
             else if ((args.NewStatus == SessionStatus.Disconnected) || (args.NewStatus == SessionStatus.Zombie))
             {
