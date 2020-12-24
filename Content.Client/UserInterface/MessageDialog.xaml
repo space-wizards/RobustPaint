@@ -1,0 +1,21 @@
+<ui:Control xmlns:ui="clr-namespace:Robust.Client.UserInterface;assembly=Robust.Client"
+            xmlns:uic="clr-namespace:Robust.Client.UserInterface.Controls;assembly=Robust.Client"
+            xmlns:uicc="clr-namespace:Robust.Client.UserInterface.CustomControls;assembly=Robust.Client"
+            xmlns:cui="clr-namespace:Content.Client.UserInterface;assembly=Content.Client"
+
+            SizeFlagsHorizontal="FillExpand" SizeFlagsVertical="FillExpand"
+>
+    <uic:CenterContainer SizeFlagsHorizontal="FillExpand" SizeFlagsVertical="FillExpand">
+        <uic:PanelContainer MouseFilter="Pass">
+            <uic:MarginContainer MarginTopOverride="8" MarginBottomOverride="8" MarginLeftOverride="8" MarginRightOverride="8">
+                <uic:VBoxContainer SeparationOverride="8">
+                    <uic:Label Name="Label" Text="Q/E switches tile." Align="Center" VAlign="Center" SizeFlagsHorizontal="FillExpand" SizeFlagsVertical="FillExpand"/>
+                    <uic:HBoxContainer Align="Center">
+                        <uic:Button Name="OkButton" Text="Ok"/>
+                    </uic:HBoxContainer>
+                </uic:VBoxContainer>
+            </uic:MarginContainer>
+        </uic:PanelContainer>
+    </uic:CenterContainer>
+</ui:Control>
+

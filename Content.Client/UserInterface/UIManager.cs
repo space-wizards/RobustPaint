@@ -1,4 +1,5 @@
 using Content.Client;
+using Content.Shared.Network;
 using Robust.Client.UserInterface;
 using Robust.Client.Interfaces.UserInterface;
 using Robust.Client.Interfaces.ResourceManagement;
@@ -9,6 +10,7 @@ using Robust.Shared.ContentPack;
 using Robust.Shared.Interfaces.GameObjects;
 using Robust.Shared.Interfaces.Resources;
 using Robust.Shared.Interfaces.Map;
+using Robust.Shared.Interfaces.Network;
 using Robust.Shared.Map;
 using Robust.Shared.IoC;
 using Robust.Shared.Timing;
@@ -18,6 +20,7 @@ namespace Content.Client.UserInterface
 {
     public class UIManager
     {
+        [Dependency] private IClientNetManager _netManager = default!;
         [Dependency] private IUserInterfaceManager _userInterfaceManager = default!;
         [Dependency] private IResourceCache _resourceCache = default!;
         [Dependency] private ITileDefinitionManager _tileDefinitionManager = default!;
@@ -34,6 +37,16 @@ namespace Content.Client.UserInterface
             _test = hud.TileAccessible;
 
             Update(2);
+            _netManager.RegisterNetMessage<MsgShowMessage>(nameof(MsgShowMessage), message => ViewMessage(message.Text));
+        }
+
+        public void ViewMessage(string text)
+        {
+            var msg = new MessageDialog(text);
+            LayoutContainer.SetAnchorPreset(msg, LayoutContainer.LayoutPreset.Wide);
+            LayoutContainer.SetGrowHorizontal(msg, LayoutContainer.GrowDirection.Both);
+            LayoutContainer.SetGrowVertical(msg, LayoutContainer.GrowDirection.Both);
+            _userInterfaceManager.StateRoot.AddChild(msg);
         }
 
         public void Update(ushort colour)

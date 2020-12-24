@@ -7,24 +7,24 @@
 >
     <uic:VBoxContainer SizeFlagsHorizontal="FillExpand" SizeFlagsVertical="FillExpand">
         <uic:HBoxContainer Align="Begin" SizeFlagsHorizontal="FillExpand">
-            <uic:PanelContainer>
+            <uic:PanelContainer MouseFilter="Pass">
                 <uic:Label Text="Robust Paint 2" Align="Left" SizeFlagsHorizontal="FillExpand"/>
             </uic:PanelContainer>
         </uic:HBoxContainer>
         <ui:Control SizeFlagsHorizontal="FillExpand" SizeFlagsVertical="FillExpand"/>
         <uic:HBoxContainer Align="Center" SizeFlagsHorizontal="FillExpand">
             <ui:Control SizeFlagsHorizontal="FillExpand">
-                <uic:PanelContainer>
+                <uic:PanelContainer MouseFilter="Pass">
                     <uic:Label Text="Left mouse button to draw." Align="Center" VAlign="Center" SizeFlagsHorizontal="FillExpand" SizeFlagsVertical="FillExpand"/>
                 </uic:PanelContainer>
             </ui:Control>
             <uic:HBoxContainer Align="Center" SizeFlagsHorizontal="FillExpand">
-                <uic:PanelContainer>
+                <uic:PanelContainer MouseFilter="Pass">
                     <uic:TextureRect Name="Tile" SizeFlagsHorizontal="FillExpand" SizeFlagsVertical="FillExpand" Stretch="KeepCentered"/>
                 </uic:PanelContainer>
             </uic:HBoxContainer>
             <ui:Control SizeFlagsHorizontal="FillExpand">
-                <uic:PanelContainer>
+                <uic:PanelContainer MouseFilter="Pass">
                     <uic:Label Text="Q/E switches tile." Align="Center" VAlign="Center" SizeFlagsHorizontal="FillExpand" SizeFlagsVertical="FillExpand"/>
                 </uic:PanelContainer>
             </ui:Control>

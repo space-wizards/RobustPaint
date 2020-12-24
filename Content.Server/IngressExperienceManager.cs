@@ -1,6 +1,7 @@
 using System;
 using System.Threading;
 using Content.Shared;
+using Content.Shared.Network;
 using Robust.Server.Interfaces.Player;
 using Robust.Server.Interfaces.Maps;
 using Robust.Server.Player;
@@ -8,6 +9,7 @@ using Robust.Shared.Enums;
 using Robust.Shared.ContentPack;
 using Robust.Shared.Interfaces.GameObjects;
 using Robust.Shared.Interfaces.Map;
+using Robust.Shared.Interfaces.Network;
 using Robust.Shared.Map;
 using Robust.Shared.IoC;
 using Robust.Shared.Log;
@@ -20,6 +22,7 @@ namespace Content.Server
 {
     public class IngressExperienceManager
     {
+        [Dependency] private IServerNetManager _netManager = default!;
         [Dependency] private IMapManager _mapManager = default!;
         [Dependency] private IEntityManager _entityManager = default!;
         [Dependency] private IPlayerManager _playerManager = default!;
@@ -32,6 +35,7 @@ namespace Content.Server
 
         public void Initialize()
         {
+            _netManager.RegisterNetMessage<MsgShowMessage>(nameof(MsgShowMessage));
             // Create ingress point map.
             IngressMap = _mapManager.CreateMap();
             var extent = _cfg.GetCVar(GameConfigVars.MapExtent);
@@ -91,6 +95,10 @@ namespace Content.Server
                 // This brings them into the InGame runlevel and to the InGame session status.
                 args.Session.AttachToEntity(playerEntity);
                 args.Session.JoinGame();
+
+                var msg = _netManager.CreateNetMessage<MsgShowMessage>();
+                msg.Text = "Test MOTD";
+                _netManager.ServerSendMessage(msg, args.Session.ConnectedClient);
             }
             else if ((args.NewStatus == SessionStatus.Disconnected) || (args.NewStatus == SessionStatus.Zombie))
             {
