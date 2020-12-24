@@ -1,0 +1,34 @@
+<ui:Control xmlns:ui="clr-namespace:Robust.Client.UserInterface;assembly=Robust.Client"
+            xmlns:uic="clr-namespace:Robust.Client.UserInterface.Controls;assembly=Robust.Client"
+            xmlns:uicc="clr-namespace:Robust.Client.UserInterface.CustomControls;assembly=Robust.Client"
+            xmlns:cui="clr-namespace:Content.Client.UserInterface;assembly=Content.Client"
+
+            SizeFlagsHorizontal="FillExpand" SizeFlagsVertical="FillExpand"
+>
+    <uic:VBoxContainer SizeFlagsHorizontal="FillExpand" SizeFlagsVertical="FillExpand">
+        <uic:HBoxContainer Align="Begin" SizeFlagsHorizontal="FillExpand">
+            <uic:PanelContainer>
+                <uic:Label Text="Robust Paint 2" Align="Left" SizeFlagsHorizontal="FillExpand"/>
+            </uic:PanelContainer>
+        </uic:HBoxContainer>
+        <ui:Control SizeFlagsHorizontal="FillExpand" SizeFlagsVertical="FillExpand"/>
+        <uic:HBoxContainer Align="Center" SizeFlagsHorizontal="FillExpand">
+            <ui:Control SizeFlagsHorizontal="FillExpand">
+                <uic:PanelContainer>
+                    <uic:Label Text="Left mouse button to draw." Align="Center" SizeFlagsHorizontal="FillExpand" SizeFlagsVertical="FillExpand"/>
+                </uic:PanelContainer>
+            </ui:Control>
+            <uic:HBoxContainer Align="Center" SizeFlagsHorizontal="FillExpand">
+                <uic:PanelContainer>
+                    <uic:TextureRect Name="Tile" SizeFlagsHorizontal="FillExpand" SizeFlagsVertical="FillExpand" Stretch="KeepCentered"/>
+                </uic:PanelContainer>
+            </uic:HBoxContainer>
+            <ui:Control SizeFlagsHorizontal="FillExpand">
+                <uic:PanelContainer>
+                    <uic:Label Text="Q/E switches tile." Align="Center" SizeFlagsHorizontal="FillExpand" SizeFlagsVertical="FillExpand"/>
+                </uic:PanelContainer>
+            </ui:Control>
+        </uic:HBoxContainer>
+    </uic:VBoxContainer>
+</ui:Control>
+

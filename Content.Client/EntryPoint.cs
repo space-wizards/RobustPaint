@@ -1,3 +1,4 @@
+using Content.Client.UserInterface;
 using Content.Shared.Input;
 using Robust.Client.Interfaces;
 using Robust.Client.Interfaces.Input;
@@ -20,7 +21,7 @@ namespace Content.Client
         [Dependency] private readonly IGameController _gameController = default!;
         [Dependency] private readonly ILightManager _lightManager = default!;
         [Dependency] private readonly IInputManager _inputManager = default!;
-        [Dependency] private readonly ColourSelectorManager _colourSelectorManager = default!;
+        [Dependency] private readonly UIManager _uiManager = default!;
         [Dependency] private readonly StyleSheetManager _styleSheetManager = default!;
 
         public override void Init()
@@ -60,7 +61,7 @@ namespace Content.Client
             human.AddFunction(ContentKeyFunctions.RP8NTPrevColour);
             human.AddFunction(ContentKeyFunctions.RP8NTPlace);
 
-            _colourSelectorManager.Initialize();
+            _uiManager.Initialize();
             _styleSheetManager.Initialize();
 
             // >:D

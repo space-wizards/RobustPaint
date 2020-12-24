@@ -1,3 +1,4 @@
+using Content.Client;
 using Robust.Client.UserInterface;
 using Robust.Client.Interfaces.UserInterface;
 using Robust.Client.Interfaces.ResourceManagement;
@@ -13,9 +14,9 @@ using Robust.Shared.IoC;
 using Robust.Shared.Timing;
 using Robust.Shared.Maths;
 
-namespace Content.Client
+namespace Content.Client.UserInterface
 {
-    public class ColourSelectorManager
+    public class UIManager
     {
         [Dependency] private IUserInterfaceManager _userInterfaceManager = default!;
         [Dependency] private IResourceCache _resourceCache = default!;
@@ -25,17 +26,13 @@ namespace Content.Client
 
         public void Initialize()
         {
-            // oh no
-            _test = new TextureRect();
+            var hud = new HUD();
+            LayoutContainer.SetAnchorPreset(hud, LayoutContainer.LayoutPreset.Wide);
+            LayoutContainer.SetGrowHorizontal(hud, LayoutContainer.GrowDirection.Both);
+            LayoutContainer.SetGrowVertical(hud, LayoutContainer.GrowDirection.Both);
+            _userInterfaceManager.StateRoot.AddChild(hud);
+            _test = hud.TileAccessible;
 
-            var help = new TextureRect();
-            help.Texture = _resourceCache.GetResource<TextureResource>($"/Textures/help.png");
-
-            var box = new HBoxContainer();
-            box.AddChild(_test);
-            box.AddChild(help);
-
-            _userInterfaceManager.StateRoot.AddChild(box);
             Update(2);
         }
 

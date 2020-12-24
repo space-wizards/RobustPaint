@@ -1,3 +1,4 @@
+using Content.Client.UserInterface;
 using Robust.Shared.IoC;
 
 namespace Content.Client
@@ -7,7 +8,7 @@ namespace Content.Client
         public static void Register()
         {
             // DEVNOTE: IoCManager registrations for the client go here and only here.
-            IoCManager.Register<ColourSelectorManager, ColourSelectorManager>();
+            IoCManager.Register<UIManager, UIManager>();
             IoCManager.Register<StyleSheetManager, StyleSheetManager>();
         }
     }
