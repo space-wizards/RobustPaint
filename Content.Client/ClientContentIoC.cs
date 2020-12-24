@@ -8,6 +8,7 @@ namespace Content.Client
         {
             // DEVNOTE: IoCManager registrations for the client go here and only here.
             IoCManager.Register<ColourSelectorManager, ColourSelectorManager>();
+            IoCManager.Register<StyleSheetManager, StyleSheetManager>();
         }
     }
 }

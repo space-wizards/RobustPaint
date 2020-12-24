@@ -10,6 +10,7 @@ using Robust.Shared.IoC;
 using Robust.Shared.Map;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Timing;
+using Robust.Shared.Utility;
 
 namespace Content.Client
 {
@@ -20,6 +21,7 @@ namespace Content.Client
         [Dependency] private readonly ILightManager _lightManager = default!;
         [Dependency] private readonly IInputManager _inputManager = default!;
         [Dependency] private readonly ColourSelectorManager _colourSelectorManager = default!;
+        [Dependency] private readonly StyleSheetManager _styleSheetManager = default!;
 
         public override void Init()
         {
@@ -59,6 +61,7 @@ namespace Content.Client
             human.AddFunction(ContentKeyFunctions.RP8NTPlace);
 
             _colourSelectorManager.Initialize();
+            _styleSheetManager.Initialize();
 
             // >:D
             if (_gameController.LaunchState.FromLauncher)
