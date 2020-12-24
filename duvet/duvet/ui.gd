@@ -39,11 +39,12 @@ func _update_dsky():
 	var db: DuvetRoot = DuvetManager.database
 	var time = timecircuit.time
 	var colours: Array = [
-		Color.black,
+		Color.black, # empty
 		Color.white,
 		Color("#5acdf9"), # cyan
 		Color("#9966fd"), # lavender
-		Color("#f5a9b8")  # pink
+		Color("#f5a9b8"),  # pink
+		Color.black
 	]
 	# pre
 	var ch_ref: DuvetChange = db.state_at_time(camX, camY, time)

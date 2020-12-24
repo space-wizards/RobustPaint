@@ -1,19 +1,32 @@
+# Keep in mind, the "real order" of this is important to Duvet which uses tile IDs
+
 - type: tile
-  name: black
-  display_name: black
+  name: empty
+  display_name: empty
+  rotation: -1
 
 - type: tile
   name: white
+  rotation: 1
   display_name: white
 
 - type: tile
   name: cyan
+  rotation: 2
   display_name: cyan
 
 - type: tile
   name: lavender
+  rotation: 3
   display_name: lavender
 
 - type: tile
   name: pink
+  rotation: 4
   display_name: pink
+
+- type: tile
+  name: black
+  rotation: 0
+  display_name: black
+

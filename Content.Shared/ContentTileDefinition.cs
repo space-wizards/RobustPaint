@@ -30,7 +30,7 @@ namespace Content.Shared
         {
             Name = mapping.GetNode("name").ToString();
             DisplayName = mapping.GetNode("display_name").ToString();
-            Rotation = int.Parse(mapping.GetNode("rotation"));
+            Rotation = int.Parse(mapping.GetNode("rotation").ToString());
         }
 
     }

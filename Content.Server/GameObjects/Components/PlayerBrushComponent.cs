@@ -1,8 +1,10 @@
 using System;
+using System.Threading;
 using System.Collections.Generic;
 using Content.Shared.GameObjects;
 using Content.Shared.GameObjects.Components;
 using Content.Server;
+using Content.Shared;
 using Robust.Shared.Maths;
 using Robust.Shared.Physics;
 using Robust.Shared.Players;
@@ -14,6 +16,7 @@ using Robust.Shared.Interfaces.Map;
 using Robust.Shared.Map;
 using Robust.Shared.IoC;
 using Robust.Shared.Log;
+using Timer = Robust.Shared.Timers.Timer;
 
 namespace Content.Server.GameObjects.Components
 {
@@ -37,16 +40,41 @@ namespace Content.Server.GameObjects.Components
             if (message is PlayerBrushApplyMessage)
             {
                 var msg = (PlayerBrushApplyMessage) message;
+                // Confirm that tile type is vaguely valid
                 if (msg.Type < 0)
                     return;
                 if (msg.Type >= _tileDefinitionManager.Count)
                     return;
-                if (_ingressExperienceManager.MapExtent.Contains(msg.Position))
+                // Is player performing this write as an admin? (acts as "sudo" barrier to prevent accidents)
+                var admin = Owner.HasComponent<PlayerAdminComponent>() && msg.InAdminMode;
+                // Confirm tile in rotation if user is not admin
+                if (!admin)
+                    if (((ContentTileDefinition) _tileDefinitionManager[msg.Type]).Rotation == -1)
+                        return;
+                // Confirm in map bounds
+                if (!(_ingressExperienceManager.MapExtent.Contains(msg.Position) || admin))
+                    return;
+                // Get old tile and check protection
+                var oldTile = _ingressExperienceManager.IngressGrid.GetTileRef(msg.Position).Tile;
+                if ((!admin) && ((oldTile.Data & (ushort) TileFlags.Protected) != 0))
                 {
-                    var tile = new Tile(msg.Type);
-                    if (_ingressExperienceManager.IngressGrid.GetTileRef(msg.Position).Tile != tile)
+                    Logger.WarningS("c.s.go.co.brush", "{0} at {1} X {2}", session, msg.Position, msg.Type);
+                    return;
+                }
+                // Prepare new tile, filtering flags if regular player
+                var tile = new Tile(msg.Type, admin ? msg.Data : 0);
+                if (oldTile != tile)
+                {
+                    Logger.WarningS("c.s.go.co.brush", "{0} at {1} = {2}", session, msg.Position, msg.Type);
+                    if (oldTile.TypeId == tile.TypeId)
                     {
-                        Logger.WarningS("c.s.go.co.brush", "{0} at {1} = {2}", session, msg.Position, msg.Type);
+                        // RobustToolbox bug workaround, see MapChunk.cs SetTile "is same tile" condition
+                        var tmp = (ushort) ((tile.TypeId == 0) ? 1 : 0);
+                        _ingressExperienceManager.IngressGrid.SetTile(msg.Position, new Tile(tmp, (ushort) 1));
+                        Timer.Spawn(TimeSpan.FromSeconds(1), () => _ingressExperienceManager.IngressGrid.SetTile(msg.Position, tile));
+                    }
+                    else
+                    {
                         _ingressExperienceManager.IngressGrid.SetTile(msg.Position, tile);
                     }
                 }

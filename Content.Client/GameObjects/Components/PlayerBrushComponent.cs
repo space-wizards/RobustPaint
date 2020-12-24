@@ -1,5 +1,7 @@
 using System;
+using Content.Client;
 using Content.Client.UserInterface;
+using Content.Shared;
 using Content.Shared.GameObjects.Components;
 using Content.Shared.Input;
 using Robust.Shared.GameObjects;
@@ -25,11 +27,12 @@ namespace Content.Client.GameObjects.Components
     [ComponentReference(typeof(SharedPlayerBrushComponent))]
     public class PlayerBrushComponent : SharedPlayerBrushComponent
     {
-        [Dependency] private IInputManager _inputManager = default!;
-        [Dependency] private IPlayerManager _playerManager = default!;
-        [Dependency] private IEyeManager _eyeManager = default!;
-        [Dependency] private ITileDefinitionManager _tileDefinitionManager = default!;
+        [Dependency] private readonly IInputManager _inputManager = default!;
+        [Dependency] private readonly IPlayerManager _playerManager = default!;
+        [Dependency] private readonly IEyeManager _eyeManager = default!;
+        [Dependency] private readonly ITileDefinitionManager _tileDefinitionManager = default!;
         [Dependency] private readonly UIManager _uiManager = default!;
+        [Dependency] private readonly ProtectionManager _protectionManager = default!;
 
         private bool _down = false;
         private Vector2i _lastDrawn = new Vector2i(-8192, -8192);
@@ -66,14 +69,7 @@ namespace Content.Client.GameObjects.Components
             {
                 if (val)
                 {
-                    if (Colour >= _tileDefinitionManager.Count - 1)
-                    {
-                        Colour = 0;
-                    }
-                    else
-                    {
-                        Colour++;
-                    }
+                    RotateColour(true);
                 }
                 handled = true;
             }
@@ -81,14 +77,7 @@ namespace Content.Client.GameObjects.Components
             {
                 if (val)
                 {
-                    if (Colour <= 0)
-                    {
-                        Colour = (ushort) (_tileDefinitionManager.Count - 1);
-                    }
-                    else
-                    {
-                        Colour--;
-                    }
+                    RotateColour(false);
                 }
                 handled = true;
             }
@@ -99,6 +88,33 @@ namespace Content.Client.GameObjects.Components
             }
         }
 
+        private void RotateColour(bool next)
+        {
+            int targetRotation = ((ContentTileDefinition) _tileDefinitionManager[Colour]).Rotation + (next ? 1 : -1);
+            int highestRotation = -1;
+            int highestRotationIndex = 1;
+            int zeroRotationIndex = 1;
+            for (var i = 0; i < _tileDefinitionManager.Count; i++)
+            {
+                int pRot = ((ContentTileDefinition) _tileDefinitionManager[i]).Rotation;
+                if ((pRot != -1) && (pRot == targetRotation))
+                {
+                    Colour = (ushort) i;
+                    return;
+                }
+                if (pRot == 0)
+                    zeroRotationIndex = i;
+                if (pRot >= highestRotation)
+                {
+                    highestRotation = pRot;
+                    highestRotationIndex = i;
+                }
+            }
+            // if we got here, we couldn't find a tile with the target rotation
+            // therefore, we have reached the edge of the rotations
+            Colour = (ushort) (next ? zeroRotationIndex : highestRotationIndex);
+        }
+
         public void Update()
         {
             if (!_down)
@@ -107,7 +123,7 @@ namespace Content.Client.GameObjects.Components
             var (x, y) = _eyeManager.ScreenToMap(_inputManager.MouseScreenPosition);
             var pos = new Vector2i((int) Math.Floor(x), (int) Math.Floor(y));
             if (_lastDrawn != pos) {
-                SendNetworkMessage(new PlayerBrushApplyMessage(pos, Colour));
+                SendNetworkMessage(new PlayerBrushApplyMessage(pos, Colour, _protectionManager.Flags, _protectionManager.InAdminMode));
                 _lastDrawn = pos;
             }
         }

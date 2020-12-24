@@ -27,6 +27,6 @@
   id: AdminPlayer
   parent: Player
   description: "An administrator player."
-#  components:
-#  - type: PlayerAdmin
+  components:
+  - type: PlayerAdmin
 

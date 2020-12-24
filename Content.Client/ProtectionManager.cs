@@ -1,5 +1,7 @@
 ﻿using System;
+using Content.Shared.GameObjects.Components;
 using Robust.Client.Interfaces.Graphics.Overlays;
+using Robust.Client.Player;
 using Robust.Shared.IoC;
 
 namespace Content.Client

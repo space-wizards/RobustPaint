@@ -2,9 +2,11 @@ using System;
 using System.Collections.Generic;
 using Content.Client;
 using Content.Shared.Network;
-using Robust.Client.UserInterface;
+using Robust.Client;
+using Robust.Client.Interfaces;
 using Robust.Client.Interfaces.UserInterface;
 using Robust.Client.Interfaces.ResourceManagement;
+using Robust.Client.UserInterface;
 using Robust.Client.UserInterface.Controls;
 using Robust.Client.ResourceManagement;
 using Robust.Shared.Enums;
@@ -22,6 +24,7 @@ namespace Content.Client.UserInterface
 {
     public class UIManager
     {
+        [Dependency] private IBaseClient _baseClient = default!;
         [Dependency] private IClientNetManager _netManager = default!;
         [Dependency] private IUserInterfaceManager _userInterfaceManager = default!;
         [Dependency] private IResourceCache _resourceCache = default!;
@@ -41,7 +44,16 @@ namespace Content.Client.UserInterface
             _test = hud.TileAccessible;
 
             Update(2);
-            _netManager.RegisterNetMessage<MsgShowMessage>(nameof(MsgShowMessage), message => PushModal(new MessageDialog(message.Text)));
+            _netManager.RegisterNetMessage<MsgShowMessage>(nameof(MsgShowMessage), message => ViewMessage(message.Text));
+            _baseClient.RunLevelChanged += (a, b) => {
+                if ((b.NewLevel == ClientRunLevel.Error) || (b.NewLevel == ClientRunLevel.Initialize))
+                    ViewMessage("Connection lost.");
+            };
+        }
+
+        public void ViewMessage(string text)
+        {
+            PushModal(new MessageDialog(text));
         }
 
         public void PushModal(IModal modal)
