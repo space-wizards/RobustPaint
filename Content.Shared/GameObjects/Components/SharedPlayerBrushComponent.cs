@@ -26,10 +26,14 @@ namespace Content.Shared.GameObjects.Components
     {
         public readonly Vector2i Position;
         public readonly ushort Type;
-        public PlayerBrushApplyMessage(Vector2i pos, ushort type)
+        public readonly ushort Data;
+        public readonly bool InAdminMode;
+        public PlayerBrushApplyMessage(Vector2i pos, ushort type, ushort data, bool inAdminMode)
         {
             Position = pos;
             Type = type;
+            Data = data;
+            InAdminMode = inAdminMode;
         }
     }
 }

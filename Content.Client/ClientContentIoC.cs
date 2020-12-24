@@ -10,6 +10,7 @@ namespace Content.Client
             // DEVNOTE: IoCManager registrations for the client go here and only here.
             IoCManager.Register<UIManager, UIManager>();
             IoCManager.Register<StyleSheetManager, StyleSheetManager>();
+            IoCManager.Register<ProtectionManager, ProtectionManager>();
         }
     }
 }

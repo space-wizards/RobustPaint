@@ -19,6 +19,7 @@ namespace Content.Shared
         public string DisplayName { get; private set; }
         public string SpriteName => Name;
         public float Friction => 0;
+        public int Rotation { get; private set; }
 
         public void AssignTileId(ushort id)
         {
@@ -29,6 +30,7 @@ namespace Content.Shared
         {
             Name = mapping.GetNode("name").ToString();
             DisplayName = mapping.GetNode("display_name").ToString();
+            Rotation = int.Parse(mapping.GetNode("rotation"));
         }
 
     }
