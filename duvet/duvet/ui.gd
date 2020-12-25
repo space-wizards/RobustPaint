@@ -113,8 +113,8 @@ func _listtravel(idx: int, list: ItemList):
 	if md == null:
 		return
 	timecircuit.time = md.when
-	camX = md.get_x()
-	camY = md.get_y()
+	camX = md.x
+	camY = md.y
 	timecircuit.emit_signal("time_changed")
 
 func _fine_down():
@@ -175,7 +175,7 @@ func _on_export():
 	fn.store_line("  <tr><td>Pos</td><td>" + db.format_pos(camX, camY) + "</td></tr>")
 	if ch_ref != null:
 		fn.store_line("  <tr><td>Pos Author</td><td>" + ch_ref.who + "</td></tr>")
-		fn.store_line("  <tr><td>Log Line</td><td>" + ch_ref.log_line + "</td></tr>")
+		fn.store_line("  <tr><td>Log Line</td><td>" + ch_ref.get_log_line() + "</td></tr>")
 	else:
 		fn.store_line("  <tr><td>Pos Author</td><td>?</td></tr>")
 		fn.store_line("  <tr><td>Log Line</td><td>?</td></tr>")
