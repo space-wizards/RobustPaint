@@ -11,6 +11,7 @@ namespace Content.Client
             IoCManager.Register<UIManager, UIManager>();
             IoCManager.Register<StyleSheetManager, StyleSheetManager>();
             IoCManager.Register<ProtectionManager, ProtectionManager>();
+            IoCManager.Register<ConGroupManager, ConGroupManager>();
         }
     }
 }

@@ -27,9 +27,8 @@ hostpassword = "operationbloodyhellm8"
 loginlocal = true
 
 [build]
-engine_version = "0.2.9"
+engine_version = "0.2.11"
 fork_id = "kdc_paint"
-version = "2012250"
-download_url = "https://20kdc.duckdns.org/kdc_paint_5.zip"
-hash = ""
-
+version = "2012251"
+download_url = "https://20kdc.duckdns.org/kdc_paint_6.zip"
+hash = "10e0f16a46b7dc77275bcfa2e789858deeacb8740926de9b762438e221640a61"
