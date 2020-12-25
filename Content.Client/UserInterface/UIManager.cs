@@ -24,7 +24,6 @@ namespace Content.Client.UserInterface
 {
     public class UIManager
     {
-        [Dependency] private IBaseClient _baseClient = default!;
         [Dependency] private IClientNetManager _netManager = default!;
         [Dependency] private IUserInterfaceManager _userInterfaceManager = default!;
         [Dependency] private IResourceCache _resourceCache = default!;
@@ -45,9 +44,11 @@ namespace Content.Client.UserInterface
 
             Update(2);
             _netManager.RegisterNetMessage<MsgShowMessage>(nameof(MsgShowMessage), message => ViewMessage(message.Text));
-            _baseClient.RunLevelChanged += (a, b) => {
-                if (b.NewLevel == ClientRunLevel.Error)
-                    ViewMessage("Connection lost.");
+            _netManager.ConnectFailed += (a, b) => {
+                ViewMessage("Failed to connect.");
+            };
+            _netManager.Disconnect += (a, b) => {
+                ViewMessage("Disconnected:\n" + (b.Reason ?? "(no reason)"));
             };
         }
 
