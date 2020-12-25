@@ -3,6 +3,7 @@ using Content.Shared.Input;
 using Robust.Client.Interfaces;
 using Robust.Client.Interfaces.Input;
 using Robust.Client.Interfaces.Graphics.Lighting;
+using Robust.Client.Interfaces.Graphics.Overlays;
 using Robust.Shared.ContentPack;
 using Robust.Shared.Interfaces.Configuration;
 using Robust.Shared.Interfaces.GameObjects;
@@ -21,6 +22,7 @@ namespace Content.Client
         [Dependency] private readonly IGameController _gameController = default!;
         [Dependency] private readonly ILightManager _lightManager = default!;
         [Dependency] private readonly IInputManager _inputManager = default!;
+        [Dependency] private readonly IOverlayManager _overlayManager = default!;
         [Dependency] private readonly UIManager _uiManager = default!;
         [Dependency] private readonly StyleSheetManager _styleSheetManager = default!;
 
@@ -64,6 +66,8 @@ namespace Content.Client
             _uiManager.Initialize();
             _styleSheetManager.Initialize();
 
+            _overlayManager.AddOverlay(new NameOverlay());
+
             // >:D
             if (_gameController.LaunchState.FromLauncher)
             {
@@ -79,6 +83,7 @@ namespace Content.Client
         {
             base.Update(level, frameEventArgs);
             // DEVNOTE: Game update loop goes here. Usually you'll want some independent GameTicker.
+            
         }
     }
 

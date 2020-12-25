@@ -27,8 +27,14 @@ namespace Content.Client
         [Dependency] private readonly IUserInterfaceManager _userInterfaceManager = default!;
         [Dependency] private readonly IResourceCache _resourceCache = default!;
 
+        public VectorFont FontUsername { get; set; } = default!;
+
         public void Initialize()
         {
+            var fontRes = _resourceCache.GetResource<FontResource>("/Fonts/DigitalWristwatches.ttf");
+            var font = new VectorFont(fontRes, 16);
+            FontUsername = new VectorFont(fontRes, 8);
+
             var panelTex = _resourceCache.GetResource<TextureResource>("/Textures/panel.png");
             var panel = new StyleBoxTexture { Texture = panelTex };
             panel.SetPatchMargin(StyleBox.Margin.All, 2);
@@ -45,7 +51,7 @@ namespace Content.Client
                     new SelectorElement(null, null, null, null),
                     new[]
                     {
-                        new StyleProperty("font", new VectorFont(_resourceCache.GetResource<FontResource>("/Fonts/DigitalWristwatches.ttf"), 16)),
+                        new StyleProperty("font", font),
                         new StyleProperty(PanelContainer.StylePropertyPanel, panel),
                         new StyleProperty(LineEdit.StylePropertyStyleBox, panelDark)
                     }

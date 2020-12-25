@@ -120,6 +120,7 @@ namespace Content.Server
 
                 // Setup an entity for the player...
                 var playerEntity = _entityManager.SpawnEntity(moderationEntity, new EntityCoordinates(_mapManager.GetMapEntityId(IngressMap), 0.5f, 0.5f));
+                playerEntity.Name = args.Session.ToString();
                 // This brings them into the InGame runlevel and to the InGame session status.
                 args.Session.AttachToEntity(playerEntity);
                 args.Session.JoinGame();
