@@ -29,7 +29,7 @@ loginlocal = true
 [build]
 engine_version = "0.2.9"
 fork_id = "kdc_paint"
-version = "2012240"
-download_url = "https://20kdc.duckdns.org/kdc_paint_4.zip"
+version = "2012250"
+download_url = "https://20kdc.duckdns.org/kdc_paint_5.zip"
 hash = ""
 

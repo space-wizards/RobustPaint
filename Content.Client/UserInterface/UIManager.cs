@@ -46,7 +46,7 @@ namespace Content.Client.UserInterface
             Update(2);
             _netManager.RegisterNetMessage<MsgShowMessage>(nameof(MsgShowMessage), message => ViewMessage(message.Text));
             _baseClient.RunLevelChanged += (a, b) => {
-                if ((b.NewLevel == ClientRunLevel.Error) || (b.NewLevel == ClientRunLevel.Initialize))
+                if (b.NewLevel == ClientRunLevel.Error)
                     ViewMessage("Connection lost.");
             };
         }
