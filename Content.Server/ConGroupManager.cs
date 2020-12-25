@@ -23,7 +23,6 @@ using Robust.Shared.Timing;
 using Robust.Shared.Maths;
 using Robust.Shared.Interfaces.Configuration;
 using Robust.Shared.Prototypes;
-using Timer = Robust.Shared.Timers.Timer;
 
 namespace Content.Server
 {

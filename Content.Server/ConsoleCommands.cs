@@ -8,6 +8,7 @@ using Robust.Shared.Interfaces.GameObjects;
 using Robust.Shared.Interfaces.Map;
 using Robust.Shared.Interfaces.Network;
 using Robust.Shared.IoC;
+using Robust.Shared.Log;
 using Robust.Shared.Map;
 using Robust.Shared.Maths;
 using Robust.Shared.Network;
@@ -98,5 +99,27 @@ namespace Content.Server
                 shell.SendText(player, "Unknown user");
             }
         }
+    }
+
+    public class WorldDumpToLogCommand : IClientCommand
+    {
+        public string Command => "worlddumptolog";
+        public string Description => "WARNING: WILL SPAM THE EVERLIVING DAYLIGHTS OUT OF LOG, ONLY USE IF YOU'RE SURE";
+        public string Help => "worlddumptolog";
+
+        public void Execute(IConsoleShell shell, IPlayerSession player, string[] args)
+        {
+            if (args.Length != 0)
+            {
+                shell.SendText(player, "Incorrect argument count");
+                return;
+            }
+
+            var iem = IoCManager.Resolve<IngressExperienceManager>();
+            foreach (var tileRef in iem.IngressGrid.GetAllTiles(false))
+            {
+                Logger.WarningS("c.s.worlddumptolog", "{0} = {1}", tileRef.GridIndices, tileRef.Tile.TypeId);
+            }
+       }
     }
 }

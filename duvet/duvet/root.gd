@@ -47,8 +47,9 @@ func _add_change_order(tmp: Array, c: DuvetChange) -> void:
 
 func try_add_change(c: String) -> void:
 	# first line of sanity
-	var headline: String = "[WARN] c.s.go.co.brush: "
-	if c.count(headline) != 1:
+	var headline1: String = "[WARN] c.s.go.co.brush: "
+	var headline2: String = "[WARN] c.s.worlddumptolog: "
+	if c.count("[WARN] c.s.") != 1:
 		return
 	# All lines are prefixed with a date.
 	# If there is no date, it's not valid.
@@ -61,9 +62,14 @@ func try_add_change(c: String) -> void:
 	if date == -1.0:
 		return
 	var content: String = c.substr(dateSplit + 1)
-	if not content.begins_with(headline):
+	if content.begins_with(headline1):
+		content = content.substr(len(headline1))
+	elif content.begins_with(headline2):
+		# ew ew ew ew
+		content = "*WorldDumpToLog at " + content.substr(len(headline2))
+		date /= 1000
+	else:
 		return
-	content = content.substr(len(headline))
 	# "localhost@JoeGenero at (-8, 3) = 0"
 	var contentC1 = content.split(" at ") # [0] = "localhost@JoeGenero", [1] = "(-8, 3) = 0"
 	if len(contentC1) != 2:
