@@ -6,6 +6,7 @@ mkdir -p obj/Assemblies
 
 # visual
 cp -r Resources/* obj/
+rm -rf obj/Prototypes/Server
 # functional
 cp bin/Content.Client/Content.Client.dll obj/Assemblies/
 cp bin/Content.Client/Content.Client.pdb obj/Assemblies/
