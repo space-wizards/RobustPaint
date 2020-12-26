@@ -29,6 +29,6 @@ loginlocal = true
 [build]
 engine_version = "0.2.11"
 fork_id = "kdc_paint"
-version = "2012251"
-download_url = "https://20kdc.duckdns.org/kdc_paint_6.zip"
-hash = "10e0f16a46b7dc77275bcfa2e789858deeacb8740926de9b762438e221640a61"
+version = "2012260"
+download_url = "https://20kdc.duckdns.org/kdc_paint_7.zip"
+hash = "b21e5be901d476537708dc6fe68675b7ba5918975398f52f3948a6c08accb966"
