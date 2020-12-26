@@ -7,7 +7,7 @@ using Robust.Shared.IoC;
 namespace Content.Client.GameObjects.EntitySystems
 {
     [UsedImplicitly]
-    public class PlayerKinesisSystem : EntitySystem
+    public class PlayerBrushSystem : EntitySystem
     {
         [Dependency] private IPlayerManager _playerManager = default!;
 

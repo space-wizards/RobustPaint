@@ -8,5 +8,6 @@ namespace Content.Shared.Input
         public static readonly BoundKeyFunction RP8NTNextColour = "RP8NTNextColour";
         public static readonly BoundKeyFunction RP8NTPrevColour = "RP8NTPrevColour";
         public static readonly BoundKeyFunction RP8NTPlace = "RP8NTPlace";
+        public static readonly BoundKeyFunction RP8NTSprint = "RP8NTSprint";
     }
 }

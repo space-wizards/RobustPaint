@@ -21,6 +21,9 @@ binds:
 - function: RP8NTPlace
   type: State
   key: MouseLeft
+- function: RP8NTSprint
+  type: State
+  key: Shift
 - function: UIClick
   type: State
   key: MouseLeft

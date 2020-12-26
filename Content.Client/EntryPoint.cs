@@ -25,6 +25,7 @@ namespace Content.Client
         [Dependency] private readonly IOverlayManager _overlayManager = default!;
         [Dependency] private readonly UIManager _uiManager = default!;
         [Dependency] private readonly StyleSheetManager _styleSheetManager = default!;
+        [Dependency] private readonly InputHookupManager _inputHookupManager = default!;
 
         public override void Init()
         {
@@ -62,9 +63,11 @@ namespace Content.Client
             human.AddFunction(ContentKeyFunctions.RP8NTNextColour);
             human.AddFunction(ContentKeyFunctions.RP8NTPrevColour);
             human.AddFunction(ContentKeyFunctions.RP8NTPlace);
+            human.AddFunction(ContentKeyFunctions.RP8NTSprint);
 
             _uiManager.Initialize();
             _styleSheetManager.Initialize();
+            _inputHookupManager.Initialize();
 
             _overlayManager.AddOverlay(new NameOverlay());
 

@@ -1,14 +1,16 @@
 using System;
 using System.Collections.Generic;
 using Content.Shared.GameObjects;
+using Content.Shared.Input;
 using Robust.Shared.Maths;
 using Robust.Shared.Physics;
 using Robust.Shared.Players;
 using Robust.Shared.Serialization;
 using Robust.Shared.GameObjects;
+using Robust.Shared.Input;
+using Robust.Shared.Log;
 using Robust.Shared.Interfaces.GameObjects;
 using Robust.Shared.Interfaces.Network;
-using Robust.Shared.Log;
 
 namespace Content.Shared.GameObjects.Components
 {
@@ -20,39 +22,64 @@ namespace Content.Shared.GameObjects.Components
         public override string Name => "PlayerKinesis";
         public override uint? NetID => ContentNetIDs.PLAYER_KINESIS;
 
-        public Vector2 Velocity { get; set; } = new Vector2(0, 0);
+        public byte Controls { get; set; } = 0;
         public Box2 TravelBounds { get; set; } = new Box2();
 
-        protected virtual bool _shouldHandleVelocity => true;
+        public Vector2 Velocity {
+            get {
+                Vector2 vel = new Vector2(0, 0);
+                if ((Controls & (byte) KinesisKeyFunctionFlags.MoveLeft) != 0)
+                    vel += new Vector2(-1, 0);
+                if ((Controls & (byte) KinesisKeyFunctionFlags.MoveRight) != 0)
+                    vel += new Vector2(1, 0);
+                if ((Controls & (byte) KinesisKeyFunctionFlags.MoveUp) != 0)
+                    vel += new Vector2(0, 1);
+                if ((Controls & (byte) KinesisKeyFunctionFlags.MoveDown) != 0)
+                    vel += new Vector2(0, -1);
+                vel *= 16;
+                if ((Controls & (byte) KinesisKeyFunctionFlags.RP8NTSprint) != 0)
+                    vel *= 4;
+                return vel;
+            }
+       }
 
         /// <inheritdoc />
         public override ComponentState GetComponentState()
         {
-            return new PlayerKinesisComponentState(Velocity, TravelBounds);
+            return new PlayerKinesisComponentState(Controls, TravelBounds);
         }
 
         /// <inheritdoc />
         public override void HandleComponentState(ComponentState curState, ComponentState nextState)
         {
-            base.HandleComponentState(curState, nextState);
-            if (nextState == null)
-                return;
-            if (_shouldHandleVelocity)
-                Velocity = ((PlayerKinesisComponentState) nextState).Velocity;
-            TravelBounds = ((PlayerKinesisComponentState) nextState).TravelBounds;
-            Dirty();
+            if (curState is PlayerKinesisComponentState state)
+            {
+                Controls = state.Controls;
+                TravelBounds = state.TravelBounds;
+            }
         }
 
-        /// <inheritdoc />
-        public override void HandleNetworkMessage(ComponentMessage message, INetChannel netChannel, ICommonSession session) {
-            base.HandleNetworkMessage(message, netChannel, session);
-            if (session == null)
-                return;
-            if (session.AttachedEntity != Owner)
-                return;
-            if (message is PlayerKinesisUpdateMessage)
+        public void KineticMessage(BoundKeyFunction fn, FullInputCmdMessage ev)
+        {
+            // Logger.WarningS("c.s.go.c.kinesis", "key {0} {1}", fn, ev.State);
+            bool val = ev.State == BoundKeyState.Down;
+            byte translated = 0;
+            if (fn == EngineKeyFunctions.MoveLeft)
+                translated = (byte) KinesisKeyFunctionFlags.MoveLeft;
+            else if (fn == EngineKeyFunctions.MoveRight)
+                translated = (byte) KinesisKeyFunctionFlags.MoveRight;
+            else if (fn == EngineKeyFunctions.MoveUp)
+                translated = (byte) KinesisKeyFunctionFlags.MoveUp;
+            else if (fn == EngineKeyFunctions.MoveDown)
+                translated = (byte) KinesisKeyFunctionFlags.MoveDown;
+            else if (fn == ContentKeyFunctions.RP8NTSprint)
+                translated = (byte) KinesisKeyFunctionFlags.RP8NTSprint;
+
+            if (translated != 0)
             {
-                Velocity = ((PlayerKinesisUpdateMessage) message).Velocity;
+                Controls |= translated;
+                if (!val)
+                    Controls ^= translated;
                 Dirty();
             }
         }
@@ -61,23 +88,23 @@ namespace Content.Shared.GameObjects.Components
     [Serializable, NetSerializable]
     public class PlayerKinesisComponentState : ComponentState
     {
-        public readonly Vector2 Velocity;
+        public readonly byte Controls;
         public readonly Box2 TravelBounds;
-        public PlayerKinesisComponentState(Vector2 vel, Box2 travelBounds) : base(ContentNetIDs.PLAYER_KINESIS)
+        public PlayerKinesisComponentState(byte ctrl, Box2 travelBounds) : base(ContentNetIDs.PLAYER_KINESIS)
         {
-            Velocity = vel;
+            Controls = ctrl;
             TravelBounds = travelBounds;
         }
     }
 
-    [Serializable, NetSerializable]
-    public class PlayerKinesisUpdateMessage : ComponentMessage
+    [Flags]
+    public enum KinesisKeyFunctionFlags : byte
     {
-        public readonly Vector2 Velocity;
-        public PlayerKinesisUpdateMessage(Vector2 vel)
-        {
-            Velocity = vel;
-        }
+        MoveUp = 1,
+        MoveDown = 2,
+        MoveLeft = 4,
+        MoveRight = 8,
+        RP8NTSprint = 16
     }
 }
 
