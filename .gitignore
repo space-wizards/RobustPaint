@@ -9,6 +9,7 @@ kdc_paint.zip
 # Project Duvet
 duvet/.import
 duvet/logs/*
+duvet/logs_arc/*
 duvet/out/*
 
 # for 20kdc use only

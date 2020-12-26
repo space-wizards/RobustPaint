@@ -4,15 +4,18 @@ var database: DuvetRoot
 
 func initialize():
 	database = DuvetRoot.new()
+	_init_dir("logs")
+	_init_dir("logs_arc")
 
+func _init_dir(base):
 	var dir = Directory.new()
-	dir.open("logs")
+	dir.open(base)
 	dir.list_dir_begin(true, true)
 	while true:
 		var nxt = dir.get_next()
 		if nxt == "":
 			break
-		var res = "logs/" + nxt
+		var res = base + "/" + nxt
 		if nxt.ends_with(".txt"):
 			if not dir.file_exists(nxt + ".bin"):
 				var fileR = File.new()
