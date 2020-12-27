@@ -228,10 +228,11 @@ margin_right = 257.0
 margin_bottom = 55.0
 text = ">"
 
-[node name="Control7" type="Control" parent="HBoxContainer/PanelContainer2/PanelContainer2/VBoxContainer/PanelContainer/GridContainer"]
+[node name="Control7" type="Button" parent="HBoxContainer/PanelContainer2/PanelContainer2/VBoxContainer/PanelContainer/GridContainer"]
 margin_top = 59.0
 margin_right = 83.0
 margin_bottom = 79.0
+text = "WORLD"
 
 [node name="Control8" type="Button" parent="HBoxContainer/PanelContainer2/PanelContainer2/VBoxContainer/PanelContainer/GridContainer"]
 margin_left = 87.0
@@ -271,5 +272,6 @@ text = "Truecolour"
 [connection signal="pressed" from="HBoxContainer/PanelContainer2/PanelContainer2/VBoxContainer/PanelContainer/GridContainer/Control2" to="." method="_fine_up"]
 [connection signal="pressed" from="HBoxContainer/PanelContainer2/PanelContainer2/VBoxContainer/PanelContainer/GridContainer/Control4" to="." method="_fine_left"]
 [connection signal="pressed" from="HBoxContainer/PanelContainer2/PanelContainer2/VBoxContainer/PanelContainer/GridContainer/Control6" to="." method="_fine_right"]
+[connection signal="pressed" from="HBoxContainer/PanelContainer2/PanelContainer2/VBoxContainer/PanelContainer/GridContainer/Control7" to="." method="_on_world_pressed"]
 [connection signal="pressed" from="HBoxContainer/PanelContainer2/PanelContainer2/VBoxContainer/PanelContainer/GridContainer/Control8" to="." method="_fine_down"]
 [connection signal="pressed" from="HBoxContainer/PanelContainer2/PanelContainer2/VBoxContainer/PanelContainer/GridContainer/Button" to="." method="_on_export"]

@@ -13,6 +13,18 @@ var main_display_image_texture: ImageTexture
 const VIEW_SIZE = 97
 const VIEW_CEN = 48
 
+const WORLD_SIZE = 1024
+const WORLD_BASE = -512
+
+const colours: Array = [
+	Color.black, # empty
+	Color.white,
+	Color("#5acdf9"), # cyan
+	Color("#9966fd"), # lavender
+	Color("#f5a9b8"),  # pink
+	Color.black
+]
+
 var camX = 0
 var camY = 0
 
@@ -38,14 +50,6 @@ func _ready():
 func _update_dsky():
 	var db: DuvetRoot = DuvetManager.database
 	var time = timecircuit.time
-	var colours: Array = [
-		Color.black, # empty
-		Color.white,
-		Color("#5acdf9"), # cyan
-		Color("#9966fd"), # lavender
-		Color("#f5a9b8"),  # pink
-		Color.black
-	]
 	# pre
 	var ch_ref: DuvetChange = db.state_at_time(camX, camY, time)
 	# main
@@ -196,3 +200,24 @@ func _on_Coordinates_text_entered(new_text):
 	camY = int(parts[1])
 	timecircuit.time = DateManager.parse_date(parts[2])
 	timecircuit.emit_signal("time_changed")
+
+
+func _on_world_pressed():
+	var image: Image = Image.new()
+	image.create(WORLD_SIZE, WORLD_SIZE, false, Image.FORMAT_RGB8)
+	var db: DuvetRoot = DuvetManager.database
+	var time = timecircuit.time
+	# main
+	image.lock()
+	for x in range(WORLD_SIZE):
+		for y in range(WORLD_SIZE):
+			var tx = WORLD_BASE + x
+			var ty = WORLD_BASE + WORLD_SIZE - (y + 1)
+			var ch: DuvetChange = db.state_at_time(tx, ty, time)
+			var state = Color.black
+			if ch != null:
+				state = colours[ch.value]
+			image.set_pixel(x, y, state)
+	image.unlock()
+	image.save_png("./out/world.png")
+	OS.shell_open("./out/world.png")
