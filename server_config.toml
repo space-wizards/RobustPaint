@@ -11,6 +11,9 @@ port = 1212
 bindto = "::,0.0.0.0"
 pvs = false
 
+[auth]
+mode = 1
+
 [status]
 enabled = true
 bind = "*:1212"
@@ -29,6 +32,6 @@ loginlocal = true
 [build]
 engine_version = "0.2.23"
 fork_id = "kdc_paint"
-version = "2012260"
-download_url = "https://20kdc.duckdns.org/kdc_paint_7.zip"
-hash = "b21e5be901d476537708dc6fe68675b7ba5918975398f52f3948a6c08accb966"
+version = "2101291"
+download_url = "https://20kdc.duckdns.org/kdc_paint_9.zip"
+hash = "6122628a0a7a2e7a04a56166466d20ee80ca2d42551f3514aa669b0f142ec40a"
