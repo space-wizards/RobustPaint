@@ -22,7 +22,7 @@ OS2Version: 0
 OS2_WeightWidthSlopeOnly: 0
 OS2_UseTypoMetrics: 1
 CreationTime: 1608759883
-ModificationTime: 1608778873
+ModificationTime: 1611957192
 OS2TypoAscent: 0
 OS2TypoAOffset: 1
 OS2TypoDescent: 0
@@ -223,19 +223,10 @@ EndChar
 
 StartChar: uni000A
 Encoding: 10 10 10
-Width: 7
+Width: 0
 VWidth: 0
 Flags: MW
 LayerCount: 2
-Fore
-SplineSet
-0 -2 m 1,0,-1
- 0 8 l 1,1,-1
- 6 8 l 1,2,-1
- 6 -2 l 1,3,-1
- 0 -2 l 1,0,-1
-EndSplineSet
-Validated: 1
 EndChar
 
 StartChar: uni000B
