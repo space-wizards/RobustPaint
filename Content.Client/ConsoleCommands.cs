@@ -1,5 +1,4 @@
 ﻿using System;
-using Robust.Client.Interfaces.Console;
 using Robust.Client.Interfaces.Placement;
 using Robust.Client.Interfaces.ResourceManagement;
 using Robust.Client.UserInterface.CustomControls;
@@ -19,26 +18,25 @@ namespace Content.Client
         public string Help => "admin <bool>";
         public string Description => "\"For the honour of...\" Enables admin mode, if you are an admin.";
 
-        public bool Execute(IDebugConsole console, params string[] args)
+        public void Execute(IConsoleShell console, string argStr, params string[] args)
         {
             var protectionManager = IoCManager.Resolve<ProtectionManager>();
             if (!protectionManager.LocalPlayerIsAdmin)
             {
-                console.AddLine("Unauthorized presence detected. Security protocol activated.");
-                return true;
+                console.WriteLine("Unauthorized presence detected. Security protocol activated.");
+                return;
             }
             if (args.Length != 1)
             {
-                console.AddLine("What is your query?");
-                return false;
+                console.WriteLine("What is your query?");
+                return;
             }
             if (!bool.TryParse(args[0], out var result))
             {
-                console.AddLine("What is your query?");
-                return false;
+                console.WriteLine("What is your query?");
+                return;
             }
             protectionManager.InAdminMode = result;
-            return false;
         }
     }
 
@@ -48,26 +46,25 @@ namespace Content.Client
         public string Help => "flags <num>";
         public string Description => "Controls what tile flags you're writing. See Content.Shared/TileFlags.cs for reference.";
 
-        public bool Execute(IDebugConsole console, params string[] args)
+        public void Execute(IConsoleShell console, string argStr, params string[] args)
         {
             var protectionManager = IoCManager.Resolve<ProtectionManager>();
             if (!protectionManager.LocalPlayerIsAdmin)
             {
-                console.AddLine("Unauthorized presence detected. Security protocol activated.");
-                return true;
+                console.WriteLine("Unauthorized presence detected. Security protocol activated.");
+                return;
             }
             if (args.Length != 1)
             {
-                console.AddLine("What is your query?");
-                return false;
+                console.WriteLine("What is your query?");
+                return;
             }
             if (!ushort.TryParse(args[0], out var result))
             {
-                console.AddLine("What is your query?");
-                return false;
+                console.WriteLine("What is your query?");
+                return;
             }
             protectionManager.Flags = result;
-            return false;
         }
     }
 }
