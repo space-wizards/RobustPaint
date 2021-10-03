@@ -62,7 +62,7 @@ namespace Content.Server.GameObjects.Components
                     return;
                 }
                 // Prepare new tile, filtering flags if regular player
-                var tile = new Tile(msg.Type, admin ? msg.Data : 0);
+                var tile = new Tile(msg.Type, (ushort) (admin ? msg.Data : 0));
                 if (oldTile != tile)
                 {
                     Logger.WarningS("c.s.go.co.brush", "{0} at {1} = {2}", session, msg.Position, msg.Type);
