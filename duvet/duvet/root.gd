@@ -14,13 +14,18 @@ func state_at_time(x: int, y: int, time: float) -> DuvetChange:
 	var pos = format_pos(x, y)
 	if not pixels.has(pos):
 		return null
-	var tmp = pixels[pos]
-	var lastChange: DuvetChange = null
-	# this could be made into a binary search
-	for ch in tmp:
-		if ch.when <= time:
-			lastChange = ch
-	return lastChange
+	var tmp: Array = pixels[pos]
+	var refChange = DuvetChange.new()
+	refChange.when = time
+	var idx = tmp.bsearch_custom(refChange, self, "compare_time", true) - 1
+	if idx < 0:
+		return null
+	if idx >= tmp.size():
+		idx = tmp.size() - 1
+	return tmp[idx]
+
+func compare_time(x, y):
+	return x.when < y.when
 
 func format_pos(x: int, y: int) -> String:
 	return "(" + str(x) + ", " + str(y) + ")"
