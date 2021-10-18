@@ -17,7 +17,7 @@ func state_at_time(x: int, y: int, time: float) -> DuvetChange:
 	var tmp: Array = pixels[pos]
 	var refChange = DuvetChange.new()
 	refChange.when = time
-	var idx = tmp.bsearch_custom(refChange, self, "compare_time", true) - 1
+	var idx = tmp.bsearch_custom(refChange, self, "compare_time", false) - 1
 	if idx < 0:
 		return null
 	if idx >= tmp.size():
