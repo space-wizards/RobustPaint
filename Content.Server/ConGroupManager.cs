@@ -1,28 +1,7 @@
-using System;
-using System.Threading;
-using Content.Shared;
 using Content.Shared.GameObjects.Components;
-using Content.Shared.Network;
-using Robust.Server.Interfaces.Player;
-using Robust.Server.Interfaces.Maps;
 using Robust.Server.Player;
 using Robust.Server.Console;
-using Robust.Shared.Enums;
-using Robust.Shared.Console;
-using Robust.Shared.ContentPack;
-using Robust.Shared.Interfaces.GameObjects;
-using Robust.Shared.Interfaces.Map;
-using Robust.Shared.Interfaces.Network;
-using Robust.Shared.Map;
 using Robust.Shared.IoC;
-using Robust.Shared.Localization;
-using Robust.Shared.Network;
-using Robust.Shared.Utility;
-using Robust.Shared.Log;
-using Robust.Shared.Timing;
-using Robust.Shared.Maths;
-using Robust.Shared.Interfaces.Configuration;
-using Robust.Shared.Prototypes;
 
 namespace Content.Server
 {
@@ -57,5 +36,6 @@ namespace Content.Server
         public bool CanAdminPlace(IPlayerSession session) => IsAdmin(session);
         public bool CanScript(IPlayerSession session) => IsAdmin(session);
         public bool CanAdminMenu(IPlayerSession session) => IsAdmin(session);
+        public bool CanAdminReloadPrototypes(IPlayerSession session) => IsAdmin(session);
     }
 }

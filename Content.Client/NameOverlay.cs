@@ -1,13 +1,6 @@
-using Content.Shared;
-﻿using Robust.Client.Graphics.ClientEye;
-using Robust.Client.Graphics.Drawing;
-using Robust.Client.Graphics.Overlays;
-using Robust.Client.Interfaces.Graphics;
-using Robust.Client.Interfaces.Graphics.ClientEye;
-using Robust.Shared.Interfaces.GameObjects;
+using Robust.Client.Graphics;
+using Robust.Shared.Enums;
 using Robust.Shared.GameObjects;
-using Robust.Shared.GameObjects.Systems;
-using Robust.Shared.Interfaces.Map;
 using Robust.Shared.IoC;
 using Robust.Shared.Maths;
 
@@ -15,21 +8,21 @@ namespace Content.Client
 {
     public class NameOverlay : Overlay
     {
-        [Dependency] private readonly IEntityManager _entityManager = default!;
+        [Dependency] private readonly IEntityLookup _entityLookup = default!;
         [Dependency] private readonly IEyeManager _eyeManager = default!;
         [Dependency] private readonly IClyde _clyde = default!;
         [Dependency] private readonly StyleSheetManager _styleSheetManager = default!;
 
         public override OverlaySpace Space => OverlaySpace.ScreenSpace;
 
-        public NameOverlay() : base(nameof(NameOverlay))
+        public NameOverlay()
         {
             IoCManager.InjectDependencies(this);
         }
-
-        protected override void Draw(DrawingHandleBase handle, OverlaySpace overlay)
+        
+        protected override void Draw(in OverlayDrawArgs args)
         {
-            var drawHandle = (DrawingHandleScreen) handle;
+            var drawHandle = args.ScreenHandle;
 
             var mapId = _eyeManager.CurrentMap;
             var eye = _eyeManager.CurrentEye;
@@ -42,7 +35,7 @@ namespace Content.Client
             var margin = new Vector2(2.0f, 2.0f);
             var hover = 32.0f;
 
-            foreach (var entity in _entityManager.GetEntitiesIntersecting(mapId, worldBounds))
+            foreach (var entity in _entityLookup.GetEntitiesIntersecting(mapId, worldBounds))
             {
                 var name = entity.Name;
                 if (name == "")
@@ -53,7 +46,7 @@ namespace Content.Client
 
                 var totalWidth = 0.0f;
                 var totalHeight = font.GetHeight(1.0f);
-                foreach (var chr in name)
+                foreach (var chr in name.EnumerateRunes())
                 {
                     var metric = font.GetCharMetrics(chr, 1.0f);
                     if (metric != null)
@@ -65,7 +58,7 @@ namespace Content.Client
 
                 // for actual render, use ascent baseline
                 tlPos += new Vector2(0.0f, ascent);
-                foreach (var chr in name)
+                foreach (var chr in name.EnumerateRunes())
                 {
                     tlPos += new Vector2(font.DrawChar(drawHandle, chr, tlPos, 1.0f, Color.White), 0.0f);
                 }

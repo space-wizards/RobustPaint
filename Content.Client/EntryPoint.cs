@@ -1,18 +1,13 @@
 using Content.Client.UserInterface;
 using Content.Shared.Input;
-using Robust.Client.Interfaces;
-using Robust.Client.Interfaces.Input;
-using Robust.Client.Interfaces.Graphics.Lighting;
-using Robust.Client.Interfaces.Graphics.Overlays;
+using Robust.Client;
+using Robust.Client.Graphics;
+using Robust.Client.Input;
 using Robust.Shared.ContentPack;
-using Robust.Shared.Interfaces.Configuration;
-using Robust.Shared.Interfaces.GameObjects;
-using Robust.Shared.Interfaces.Map;
+using Robust.Shared.GameObjects;
 using Robust.Shared.IoC;
-using Robust.Shared.Map;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Timing;
-using Robust.Shared.Utility;
 
 namespace Content.Client
 {

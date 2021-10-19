@@ -1,7 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using JetBrains.Annotations;
-using Robust.Shared.Interfaces.Map;
+﻿using JetBrains.Annotations;
+using Robust.Shared.Map;
 using Robust.Shared.Prototypes;
 using Robust.Shared.Utility;
 using YamlDotNet.RepresentationModel;
@@ -10,9 +8,9 @@ namespace Content.Shared
 {
     [UsedImplicitly]
     [Prototype("tile")]
-    public sealed class ContentTileDefinition : IPrototype, IIndexedPrototype, ITileDefinition
+    public sealed class ContentTileDefinition : IPrototype, ITileDefinition
     {
-        string IIndexedPrototype.ID => Name;
+        string IPrototype.ID => Name;
 
         public string Name { get; private set; }
         public ushort TileId { get; private set; }
@@ -20,6 +18,8 @@ namespace Content.Shared
         public string SpriteName => Name;
         public float Friction => 0;
         public int Rotation { get; private set; }
+
+        public string Path => "/Textures/Tiles/";
 
         public void AssignTileId(ushort id)
         {

@@ -1,14 +1,5 @@
-﻿using System;
-using Robust.Client.Interfaces.Placement;
-using Robust.Client.Interfaces.ResourceManagement;
-using Robust.Client.UserInterface.CustomControls;
-using Robust.Client.ResourceManagement;
-using Robust.Shared.Interfaces.Map;
-using Robust.Shared.Console;
+﻿using Robust.Shared.Console;
 using Robust.Shared.IoC;
-using Robust.Shared.Maths;
-using Robust.Shared.Map;
-using Robust.Shared.Prototypes;
 
 namespace Content.Client
 {

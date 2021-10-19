@@ -14,7 +14,7 @@ namespace Content.Server.GameObjects.Components
     {
         [Dependency] private IngressExperienceManager _ingressExperienceManager = default!;
 
-        public override void Initialize()
+        protected override void Initialize()
         {
             base.Initialize();
             TravelBounds = _ingressExperienceManager.MapExtentF;

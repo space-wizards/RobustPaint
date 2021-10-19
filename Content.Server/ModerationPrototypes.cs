@@ -1,41 +1,31 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using JetBrains.Annotations;
-using Robust.Shared.Interfaces.Map;
+﻿using JetBrains.Annotations;
 using Robust.Shared.Prototypes;
-using Robust.Shared.Utility;
-using YamlDotNet.RepresentationModel;
+using Robust.Shared.Serialization.Manager.Attributes;
 
 namespace Content.Server
 {
     [UsedImplicitly]
     [Prototype("moderation")]
-    public sealed class ModerationDefinition : IPrototype, IIndexedPrototype
+    public sealed class ModerationDefinition : IPrototype
     {
-        string IIndexedPrototype.ID => UUID;
+        string IPrototype.ID => UUID;
 
+        [DataField("uuid")]
         public string UUID { get; set; }
+        [DataField("entity")]
         public string Entity { get; set; }
+        [DataField("text")]
         public string Text { get; set; }
-
-        public void LoadFrom(YamlMappingNode mapping)
-        {
-            UUID = mapping.GetNode("uuid").ToString();
-            Entity = mapping.GetNode("entity").ToString();
-            Text = mapping.GetNode("text").ToString();
-        }
     }
 
     [UsedImplicitly]
     [Prototype("message")]
     public sealed class MessageDefinition : IPrototype
     {
+        [DataField("text")]
         public string Text { get; private set; }
-
-        public void LoadFrom(YamlMappingNode mapping)
-        {
-            Text = mapping.GetNode("text").ToString();
-        }
+        [DataField("id")]
+        public string ID { get; private set; }
     }
 }
 

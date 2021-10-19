@@ -1,6 +1,5 @@
-﻿using System;
-using Content.Shared.GameObjects.Components;
-using Robust.Client.Interfaces.Graphics.Overlays;
+﻿using Content.Shared.GameObjects.Components;
+using Robust.Client.Graphics;
 using Robust.Client.Player;
 using Robust.Shared.IoC;
 
@@ -20,13 +19,13 @@ namespace Content.Client
                 _inAdminMode = value;
                 if (value)
                 {
-                    if (!_overlayManager.HasOverlay(nameof(ProtectionOverlay)))
+                    if (!_overlayManager.HasOverlay(typeof(ProtectionOverlay)))
                         _overlayManager.AddOverlay(new ProtectionOverlay());
                 }
                 else
                 {
-                    if (_overlayManager.HasOverlay(nameof(ProtectionOverlay)))
-                        _overlayManager.RemoveOverlay(nameof(ProtectionOverlay));
+                    if (_overlayManager.HasOverlay(typeof(ProtectionOverlay)))
+                        _overlayManager.RemoveOverlay<ProtectionOverlay>();
                 }
             }
         }

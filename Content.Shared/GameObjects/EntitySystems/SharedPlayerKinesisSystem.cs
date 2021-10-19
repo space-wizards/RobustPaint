@@ -1,9 +1,8 @@
 using Content.Shared.Input;
-﻿using Content.Shared.GameObjects.Components;
+using Content.Shared.GameObjects.Components;
 using JetBrains.Annotations;
-using Robust.Shared.GameObjects.Systems;
+using Robust.Shared.GameObjects;
 using Robust.Shared.Input;
-using Robust.Shared.Log;
 using Robust.Shared.Input.Binding;
 using Robust.Shared.Players;
 
@@ -36,7 +35,7 @@ namespace Content.Shared.GameObjects.EntitySystems
         {
             base.Update(frameTime);
 
-            foreach (var kinesis in ComponentManager.EntityQuery<SharedPlayerKinesisComponent>())
+            foreach (var kinesis in EntityManager.EntityQuery<SharedPlayerKinesisComponent>())
             {
                 var localPosition = kinesis.Owner.Transform.LocalPosition;
                 localPosition += (kinesis.Velocity * frameTime);

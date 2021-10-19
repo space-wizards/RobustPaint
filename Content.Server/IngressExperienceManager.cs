@@ -1,24 +1,19 @@
 using System;
-using System.Threading;
 using System.Collections.Generic;
 using Content.Shared;
 using Content.Shared.Network;
-using Robust.Server.Interfaces.Player;
-using Robust.Server.Interfaces.Maps;
+using Robust.Server.Maps;
 using Robust.Server.Player;
+using Robust.Shared.Configuration;
 using Robust.Shared.Enums;
-using Robust.Shared.ContentPack;
-using Robust.Shared.Interfaces.GameObjects;
-using Robust.Shared.Interfaces.Map;
-using Robust.Shared.Interfaces.Network;
+using Robust.Shared.GameObjects;
 using Robust.Shared.Map;
 using Robust.Shared.IoC;
 using Robust.Shared.Log;
-using Robust.Shared.Timing;
 using Robust.Shared.Maths;
-using Robust.Shared.Interfaces.Configuration;
+using Robust.Shared.Network;
 using Robust.Shared.Prototypes;
-using Timer = Robust.Shared.Timers.Timer;
+using Timer = Robust.Shared.Timing.Timer;
 
 namespace Content.Server
 {
@@ -40,7 +35,7 @@ namespace Content.Server
 
         public void Initialize()
         {
-            _netManager.RegisterNetMessage<MsgShowMessage>(nameof(MsgShowMessage));
+            _netManager.RegisterNetMessage<MsgShowMessage>();
             // Create ingress point map.
             IngressMap = _mapManager.CreateMap();
             var extent = _cfg.GetCVar(GameConfigVars.MapExtent);

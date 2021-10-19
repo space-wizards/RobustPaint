@@ -1,24 +1,12 @@
 using System;
 using System.Collections.Generic;
-using Content.Client;
 using Content.Shared.Network;
-using Robust.Client;
-using Robust.Client.Interfaces;
-using Robust.Client.Interfaces.UserInterface;
-using Robust.Client.Interfaces.ResourceManagement;
 using Robust.Client.UserInterface;
 using Robust.Client.UserInterface.Controls;
 using Robust.Client.ResourceManagement;
-using Robust.Shared.Enums;
-using Robust.Shared.ContentPack;
-using Robust.Shared.Interfaces.GameObjects;
-using Robust.Shared.Interfaces.Resources;
-using Robust.Shared.Interfaces.Map;
-using Robust.Shared.Interfaces.Network;
 using Robust.Shared.Map;
 using Robust.Shared.IoC;
-using Robust.Shared.Timing;
-using Robust.Shared.Maths;
+using Robust.Shared.Network;
 
 namespace Content.Client.UserInterface
 {
@@ -43,7 +31,7 @@ namespace Content.Client.UserInterface
             _test = hud.TileAccessible;
 
             Update(2);
-            _netManager.RegisterNetMessage<MsgShowMessage>(nameof(MsgShowMessage), message => ViewMessage(message.Text));
+            _netManager.RegisterNetMessage<MsgShowMessage>(message => ViewMessage(message.Text));
             _netManager.ConnectFailed += (a, b) => {
                 ViewMessage("Failed to connect.");
             };

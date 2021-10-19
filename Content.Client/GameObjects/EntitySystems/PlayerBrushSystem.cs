@@ -1,7 +1,7 @@
 ﻿using Content.Client.GameObjects.Components;
 using JetBrains.Annotations;
 using Robust.Client.Player;
-using Robust.Shared.GameObjects.Systems;
+using Robust.Shared.GameObjects;
 using Robust.Shared.IoC;
 
 namespace Content.Client.GameObjects.EntitySystems

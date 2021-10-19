@@ -1,11 +1,8 @@
-using System;
-using System.Collections.Generic;
 using System.Globalization;
 using Robust.Shared.ContentPack;
-using Robust.Shared.Interfaces.Map;
 using Robust.Shared.IoC;
 using Robust.Shared.Localization;
-using Robust.Shared.Localization.Macros;
+using Robust.Shared.Map;
 using Robust.Shared.Prototypes;
 
 namespace Content.Shared
@@ -20,17 +17,16 @@ namespace Content.Shared
 
         [Dependency] private readonly IPrototypeManager _prototypeManager = default!;
         [Dependency] private readonly ITileDefinitionManager _tileDefinitionManager = default!;
+        [Dependency] private readonly ILocalizationManager _loc = default!;
 
         public override void PreInit()
         {
             IoCManager.InjectDependencies(this);
-            var textMacroFactory = IoCManager.Resolve<ITextMacroFactory>();
-            textMacroFactory.DoAutoRegistrations();
-
+            
             // Default to en-US.
             // DEVNOTE: If you want your game to be multiregional at runtime, you'll need to 
             // do something more complicated here.
-            Loc.LoadCulture(new CultureInfo(Culture));
+            _loc.LoadCulture(new CultureInfo(Culture));
             // TODO: Document what else you might want to put here
         }
 

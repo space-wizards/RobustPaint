@@ -1,20 +1,15 @@
 using System;
-using Content.Client;
 using Content.Client.UserInterface;
 using Content.Shared;
 using Content.Shared.GameObjects.Components;
 using Content.Shared.Input;
+using Robust.Client.Graphics;
+using Robust.Client.Input;
 using Robust.Shared.GameObjects;
 using Robust.Shared.Input;
 using Robust.Shared.Maths;
 using Robust.Shared.Map;
-using Robust.Shared.Log;
-using Robust.Shared.Input.Binding;
-using Robust.Shared.Interfaces.GameObjects;
-using Robust.Shared.Interfaces.Map;
 using Robust.Shared.IoC;
-using Robust.Client.Interfaces.Input;
-using Robust.Client.Interfaces.Graphics.ClientEye;
 using Robust.Client.Player;
 
 namespace Content.Client.GameObjects.Components
@@ -39,7 +34,7 @@ namespace Content.Client.GameObjects.Components
 
         public ushort Colour { get; set; } = 2;
 
-        public override void Initialize()
+        protected override void Initialize()
         {
             base.Initialize();
             _inputManager.KeyBindStateChanged += KeyBindStateChanged;
@@ -51,8 +46,9 @@ namespace Content.Client.GameObjects.Components
             base.Shutdown();
         }
 
-        private void KeyBindStateChanged(BoundKeyEventArgs ev)
+        private void KeyBindStateChanged(ViewportBoundKeyEventArgs vp)
         {
+            var ev = vp.KeyEventArgs;
             if (_playerManager.LocalPlayer?.ControlledEntity != Owner)
                 return;
             bool val = ev.State == BoundKeyState.Down;

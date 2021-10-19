@@ -1,18 +1,12 @@
 using Lidgren.Network;
-using Robust.Shared.Interfaces.Network;
 using Robust.Shared.Network;
 
 namespace Content.Shared.Network
 {
     public class MsgShowMessage : NetMessage
     {
-        #region REQUIRED
-
-        public const MsgGroups GROUP = MsgGroups.Command;
-        public const string NAME = nameof(MsgShowMessage);
-        public MsgShowMessage(INetChannel channel) : base(NAME, GROUP) { }
-
-        #endregion
+        public override string MsgName => nameof(MsgShowMessage);
+        public override MsgGroups MsgGroup => MsgGroups.Command;
 
         public string Text { get; set; }
 
