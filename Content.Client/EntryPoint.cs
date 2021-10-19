@@ -42,6 +42,7 @@ namespace Content.Client
             ClientContentIoC.Register();
 
             IoCManager.BuildGraph();
+            factory.GenerateNetIds();
 
             // DEVNOTE: This is generally where you'll be setting up the IoCManager further.
 

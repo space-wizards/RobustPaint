@@ -3,6 +3,7 @@ using Content.Shared.Input;
 using Robust.Shared.Maths;
 using Robust.Shared.Serialization;
 using Robust.Shared.GameObjects;
+using Robust.Shared.GameStates;
 using Robust.Shared.Input;
 using Robust.Shared.Players;
 
@@ -11,6 +12,7 @@ namespace Content.Shared.GameObjects.Components
     /// <summary>
     ///     Player controls!
     /// </summary>
+    [NetworkedComponent]
     public abstract class SharedPlayerKinesisComponent : Component
     {
         public override string Name => "PlayerKinesis";
